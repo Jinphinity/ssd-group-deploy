@@ -1,0 +1,49 @@
+[gd_scene load_steps=10 format=3]
+
+[ext_resource type="PackedScene" path="res://entities/World/HostileZone.tscn" id="1_l0qcz"]
+[ext_resource type="PackedScene" path="res://entities/Player/Player.tscn" id="2_88z8r"]
+[ext_resource type="PackedScene" path="res://entities/NPC/Zombie_Basic.tscn" id="3_b7eyu"]
+[ext_resource type="PackedScene" path="res://common/UI/HUD.tscn" id="4_q3zto"]
+[ext_resource type="PackedScene" path="res://common/UI/InventoryUI.tscn" id="5_invui"]
+[ext_resource type="PackedScene" path="res://common/UI/MarketUI.tscn" id="6_marketui"]
+[ext_resource type="Script" path="res://common/AI/WaveSpawner.gd" id="7_waves"]
+
+[node name="Stage_Hostile_01" type="Node3D"]
+
+[node name="World" type="Node3D" parent="."]
+
+[node name="HostileZone" parent="World" instance=ExtResource("1_l0qcz")]
+
+[node name="Player" parent="." instance=ExtResource("2_88z8r")]
+
+[node name="Spawns" type="Node3D" parent="."]
+
+[node name="Zombie1" parent="Spawns" instance=ExtResource("3_b7eyu")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6, 0, -8)
+
+[node name="Zombie2" parent="Spawns" instance=ExtResource("3_b7eyu")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5, 0, -7)
+
+[node name="HUD" parent="." instance=ExtResource("4_q3zto")]
+
+[node name="InventoryUI" parent="." instance=ExtResource("5_invui")]
+
+[node name="MarketUI" parent="." instance=ExtResource("6_marketui")]
+
+[node name="WaveSpawner" type="Node3D" parent="."]
+script = ExtResource("7_waves")
+
+[sub_resource type="BoxMesh" id="1"]
+size = Vector3(60, 1, 60)
+
+[sub_resource type="BoxShape3D" id="2"]
+size = Vector3(60, 1, 60)
+
+[node name="Ground" type="StaticBody3D" parent="World"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="World/Ground"]
+shape = SubResource("2")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="World/Ground"]
+mesh = SubResource("1")
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 0)

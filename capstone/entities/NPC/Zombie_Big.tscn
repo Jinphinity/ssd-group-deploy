@@ -1,0 +1,16 @@
+[gd_scene load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://entities/NPC/Zombie_Big.gd" id="1_big"]
+
+[sub_resource type="CapsuleShape3D" id="1"]
+radius = 0.8
+height = 2.0
+
+[node name="Zombie_Big" type="CharacterBody3D"]
+script = ExtResource("1_big")
+collision_layer = 1
+collision_mask = 1
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("1")
+

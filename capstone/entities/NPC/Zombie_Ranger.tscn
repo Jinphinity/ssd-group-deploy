@@ -1,0 +1,16 @@
+[gd_scene load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://entities/NPC/Zombie_Ranger.gd" id="1_ranger"]
+
+[sub_resource type="CapsuleShape3D" id="1"]
+radius = 0.5
+height = 1.4
+
+[node name="Zombie_Ranger" type="CharacterBody3D"]
+script = ExtResource("1_ranger")
+collision_layer = 1
+collision_mask = 1
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("1")
+

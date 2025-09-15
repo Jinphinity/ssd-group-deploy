@@ -1,0 +1,13 @@
+[gd_resource type="Resource" format=3]
+
+[resource]
+slot_size = 1
+weight = 1.5
+durability = 100
+noise = 50
+noise_radius = 100
+damage = 20
+fire_mode = "semi"
+ammo = 12
+reload_time = 1.5
+

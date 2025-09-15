@@ -1,0 +1,28 @@
+[gd_scene load_steps=5 format=3]
+
+[ext_resource type="Script" path="res://entities/Player/PlayerController.gd" id="1_5y1mj"]
+[ext_resource type="PackedScene" path="res://common/CameraRigs/FPSRig.tscn" id="2_4j3a1"]
+[ext_resource type="Script" path="res://common/Controllers/Move3DController.gd" id="3_077gq"]
+[ext_resource type="Script" path="res://common/Inventory/Inventory.gd" id="4_invscpt"]
+
+[node name="Player" type="CharacterBody3D" groups=["player"]]
+script = ExtResource("1_5y1mj")
+collision_layer = 1
+collision_mask = 1
+rig_scene = ExtResource("2_4j3a1")
+movement_controller_path = NodePath("Move3DController")
+
+[node name="Move3DController" type="Node" parent="."]
+script = ExtResource("3_077gq")
+
+[node name="Capsule" type="CollisionShape3D" parent="."]
+shape = SubResource("CapsuleShape3D_1")
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_1"]
+radius = 0.5
+height = 1.6
+
+[editable path="."]
+
+[node name="Inventory" type="Node" parent="."]
+script = ExtResource("4_invscpt")

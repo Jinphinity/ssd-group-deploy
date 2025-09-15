@@ -1,0 +1,34 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://common/UI/HUD.gd" id="1_w1m4h"]
+
+[node name="HUD" type="CanvasLayer"]
+script = ExtResource("1_w1m4h")
+
+[node name="Root" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = 0.0
+offset_bottom = 0.0
+
+[node name="TopBar" type="HBoxContainer" parent="Root"]
+layout_mode = 2
+offset_left = 12.0
+offset_top = 12.0
+offset_right = 612.0
+offset_bottom = 42.0
+
+[node name="PerspectiveLabel" type="Label" parent="Root/TopBar"]
+text = "Perspective: FPS"
+
+[node name="HealthLabel" type="Label" parent="Root/TopBar"]
+text = "HP: 100"
+offset_left = 180.0
+
+[node name="Captions" type="Label" parent="Root"]
+layout_mode = 2
+offset_left = 12.0
+offset_top = 60.0
+text = ""
