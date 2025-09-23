@@ -1,6 +1,6 @@
 # Dizzy’s Disease — Godot Technical Specification Pack v1 (Perspective‑Agnostic)
 
-> **Source of truth for implementation.** This spec translates the original “Dizzy’s Disease” design into a **Godot 4.4** build with a **perspective‑agnostic** architecture (first‑person, third‑person, top‑down/isometric, or side‑scroller selectable at build or run time). Where this spec and the proposal differ, **this spec wins**. Items marked **PROPOSED** are stretch unless required by the rubric.
+> **Source of truth for implementation.** This spec translates the original “Dizzy’s Disease” design into a **Godot 4.4** build with a **perspective‑agnostic** architecture (first‑person, third‑person, top‑down/isometric, or side‑scroller selectable at build or run time). Where this spec and the proposal differ, **this spec wins**. Items marked **REQUIRED for capstone** are stretch unless required by the rubric.
 
 ---
 
@@ -10,7 +10,7 @@
     
 - **Engine:** Godot 4.4 (GDScript; optional C# for heavy math).
     
-- **Platforms:** Desktop (Win/macOS/Linux). **Web** export **PROPOSED**.
+- **Platforms:** Desktop (Win/macOS/Linux). **Web** export **REQUIRED for capstone**.
     
 - **Hosted persistence:** REST API + PostgreSQL (raw SQL; no ORM). Profiles, characters, inventories, settlements, marketplace, sessions/combat logs.
     
@@ -126,7 +126,27 @@ res://
 - **Time**: world time, cooldowns, economic tick.
     
 - **Analytics**: fire-and-forget events (used by tests & tuning).
-    
+
+
+### 4.2.1 Mobile-First Architecture (Academic Compliance)
+
+**Responsive UI Framework**:
+- **Viewport Management**: Dynamic scale adaptation for mobile/tablet/desktop viewports
+- **Touch Input System**: Multi-touch gesture recognition, virtual joysticks, responsive touch zones
+- **Adaptive UI Layouts**: Container-based responsive layouts using Godot's UI containers
+- **Performance Scaling**: Automatic quality settings based on device capabilities
+
+**Mobile-Specific Optimizations**:
+- **Rendering Pipeline**: Mobile-optimized GL Compatibility mode, texture compression
+- **Input Abstraction**: Unified input system supporting touch, gamepad, and keyboard
+- **Battery Optimization**: Power-efficient update cycles, background processing management
+- **Memory Management**: Asset streaming, texture atlasing, memory pool optimization
+
+**Cross-Platform Features**:
+- **Save Synchronization**: Cloud save compatibility across mobile/desktop platforms
+- **Network Adaptation**: Bandwidth-aware networking, offline queue for mobile connectivity
+- **Accessibility Support**: Screen reader compatibility, high contrast modes, font scaling
+- **Platform Integration**: Native notifications, platform-specific UI conventions
 
 ### 4.3 Scenes & systems
 
@@ -207,6 +227,40 @@ func move(input:Dictionary, delta:float) -> void: pass
 
 Level‑ups **reduce handicaps** (sway, reload time, fatigue) and unlock abilities (e.g., **Power Attack**: Strength+Dexterity).
 
+### 6.1.1 Weapon Proficiency System (Academic Compliance)
+
+**Six Weapon Proficiency Categories** (0-100 scale):
+- **Melee - Knives**: Affects attack speed, critical hit chance, stealth kills
+- **Melee - Axes/Clubs**: Affects damage multiplier, armor penetration, knockdown chance
+- **Firearm - Handguns**: Affects accuracy, reload speed, dual-wield capability
+- **Firearm - Rifles**: Affects long-range accuracy, stability, scope effectiveness
+- **Firearm - Shotguns**: Affects spread pattern, reload efficiency, close-quarters damage
+- **Firearm - Automatics**: Affects recoil control, burst accuracy, sustained fire
+
+**Proficiency Progression**:
+- Gains XP through weapon usage (hits, kills, successful actions)
+- Each 10 levels reduces weapon-specific penalties by 5%
+- Unlocks special abilities at 25, 50, 75, 100 proficiency
+- Available stat points earned through leveling can boost proficiencies
+
+### 6.1.2 Survivability Stats (Academic Compliance)
+
+**Core Survivability Metrics** (0-100 scale, decay over time):
+- **Nourishment Level**: Affects health regeneration, stamina recovery, accuracy penalties
+  - Decays 1 point per hour of gameplay
+  - Restored through food items with varying efficiency
+  - Below 25: accuracy -15%, stamina recovery -25%
+
+- **Sleep Level**: Affects reaction time, weapon sway, perception range
+  - Decays 2 points per hour of gameplay
+  - Restored through safe zone rest mechanics
+  - Below 25: weapon sway +20%, perception range -30%
+
+**Survivability Impact on Gameplay**:
+- Well-fed and rested characters perform at peak efficiency
+- Neglecting survivability creates cascading performance penalties
+- Emergency consumables provide temporary boosts but don't replace proper rest/nutrition
+
 ### 6.2 Weapon & armor model
 
 Resource `.tres`: `{slot_size, weight, durability, noise, noise_radius, damage, fire_mode, ammo, reload_time}`
@@ -274,9 +328,9 @@ Hitscan and projectile share `Ballistics.fire(params)`; damage formula consider
 
 Tables (keys only):
 
-- **users**(user_id PK, email UNIQUE, password_hash, display_name, created_at)
-    
-- **characters**(character_id PK, user_id FK, name UNIQUE, level, xp, strength, dexterity, agility, endurance, accuracy, money)
+- **users**(user_id PK, email UNIQUE, password_hash, display_name, created_at, email_verified BOOLEAN DEFAULT FALSE, verification_token VARCHAR(255) NULL, reset_token VARCHAR(255) NULL, reset_token_expires TIMESTAMP NULL, last_login TIMESTAMP NULL)
+
+- **characters**(character_id PK, user_id FK, name UNIQUE, level, xp, strength, dexterity, agility, endurance, accuracy, money, melee_knives INT DEFAULT 0, melee_axes_clubs INT DEFAULT 0, firearm_handguns INT DEFAULT 0, firearm_rifles INT DEFAULT 0, firearm_shotguns INT DEFAULT 0, firearm_automatics INT DEFAULT 0, nourishment_level FLOAT DEFAULT 100.0, sleep_level FLOAT DEFAULT 100.0, available_stat_points INT DEFAULT 0)
     
 - **items**(item_id PK, name, type, slot_size, weight, durability_max, armor_dr INT NULL, damage INT NULL, noise INT, noise_radius INT)
     
@@ -297,13 +351,19 @@ Tables (keys only):
 - **events**(event_id PK, type, payload_json, created_at)
     
 - **leaderboards**(entry_id PK, user_id FK, score INT, mode ENUM('story','endless'), created_at)
-    
+
+- **character_progression**(progression_id PK, character_id FK, skill_type ENUM('melee_knives','melee_axes_clubs','firearm_handguns','firearm_rifles','firearm_shotguns','firearm_automatics'), xp_gained INT, level_achieved INT, timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP)
+
+- **audit_logs**(log_id PK, user_id FK NULL, action VARCHAR(255), resource VARCHAR(100), resource_id INT NULL, ip_address INET NULL, user_agent TEXT NULL, timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP, success BOOLEAN DEFAULT TRUE)
+
+- **orders**(request_id UUID PK, user_id FK, item_id FK, quantity INT, price DECIMAL(10,2), order_type ENUM('buy','sell'), created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP, completed BOOLEAN DEFAULT FALSE)
+
 
 **Sample data**: seed ≥100 items and ≥50 NPC templates; market seeded with one outpost.
 
 ---
 
-## 10) REST API (FastAPI or Express)
+## 10) REST API (explicit routes)
 
 **Auth**: `POST /auth/register`, `POST /auth/login` → JWT  
 **Characters**: `GET /characters`, `POST /characters`, `PATCH /characters/:id`  
@@ -315,6 +375,45 @@ Tables (keys only):
 **Admin**: `POST /admin/items/upload`, `POST /admin/events`, `DELETE /admin/item/:id`
 
 **Security**: bcrypt password hashing, JWT expiry/refresh, rate limit, **parameterized SQL** only, safe error messages.
+
+### 10.1) Enhanced Authentication & Character API (Academic Compliance)
+
+**Additional Auth Endpoints Required**:
+- `GET /auth/check-username/:username` → real-time username availability validation
+- `POST /auth/request-reset` → trigger password reset email with secure token
+- `POST /auth/confirm-reset` → confirm password reset using token validation
+- `POST /auth/verify-email` → confirm email verification with token
+- `GET /auth/resend-verification` → resend email verification token
+- `POST /auth/validate-password` → validate password strength requirements
+- `POST /auth/refresh` → refresh JWT tokens securely
+
+**Enhanced Character Management Endpoints**:
+- `POST /characters/:id/allocate-stats` → allocate available stat points on level-up
+- `GET /characters/:id/progression` → retrieve weapon proficiencies and survivability stats
+- `PATCH /characters/:id/proficiency` → update weapon skill progression
+- `POST /characters/:id/survivability` → update nourishment/sleep levels
+
+**Password Requirements**: 8+ characters, mixed case, numbers, symbols, dictionary word check
+**Email Verification**: Required before character creation, token expires in 24h
+**Rate Limiting**: Auth endpoints 5/min per IP, general endpoints 100/min per IP
+**Audit Logging**: All auth events, failed attempts, password changes logged securely
+
+### 10.2) Server Authority & Idempotency (Academic Compliance)
+
+**Hybrid Authority Model**:
+- **Client-Authoritative**: Position, progression, UI state (offline queue for sync)
+- **Server-Authoritative**: Currency, inventory, market transactions (immediate validation)
+
+**Idempotency Requirements**:
+- All state-changing endpoints require `X-Request-Id: <uuid>` header
+- Market transactions use: `INSERT ... ON CONFLICT (request_id) DO NOTHING RETURNING *`
+- Short transactions with `SELECT ... FOR UPDATE` on balances/stock
+
+**API Testing Standards**:
+- API-only ZAP scanning (no client headers controllable on itch.io)
+- Parameterized SQL enforcement
+- SQLi/XSS probe validation
+- 25-request chaos testing for double-spend prevention
 
 ---
 
@@ -331,6 +430,34 @@ Tables (keys only):
 - **Accessibility**: key remap, high‑contrast, captions/visual cues.
     
 - **Security**: ZAP baseline; JWT misuse; CORS; rate‑limit enforcement.
+
+
+### 11.1 Enhanced Security Requirements (Academic Compliance)
+
+**Authentication Security**:
+- **Password Requirements**: Minimum 8 characters, complexity validation, strength meter
+- **JWT Security**: Short expiry (15 min), secure refresh tokens (7 days), rotation on use
+- **Email Verification**: Mandatory verification before login, secure token generation (256-bit)
+- **Password Reset**: Time-limited tokens (1 hour), single-use validation, secure delivery
+- **Rate Limiting**: Login attempts (5/10min), API calls (100/min), registration (3/day)
+
+**Database Security**:
+- **SQL Injection Prevention**: Parameterized queries only, input sanitization, ORM safety
+- **Data Encryption**: bcrypt for passwords (cost 12+), sensitive data encryption at rest
+- **Audit Logging**: All authentication events, failed attempts, privilege escalations
+- **Connection Security**: SSL/TLS only, connection pooling, prepared statements
+
+**API Security**:
+- **CORS Configuration**: Strict origin controls, credential handling, preflight validation
+- **Input Validation**: Server-side validation, sanitization, type checking, length limits
+- **Error Handling**: Secure error messages, no information leakage, consistent responses
+- **Security Headers**: HSTS, CSP, X-Frame-Options, X-Content-Type-Options
+
+**Session Management**:
+- **Token Security**: Secure storage, automatic expiry, revocation capability
+- **Concurrent Sessions**: Multi-device support, session invalidation, activity tracking
+- **CSRF Protection**: Token validation, same-site cookies, double-submit patterns
+- **Device Tracking**: Fingerprinting, suspicious activity detection, notification system
     
 
 **Acceptance criteria** (pass/fail evidence):
@@ -344,20 +471,40 @@ Tables (keys only):
 - Market price reacts to at least one event (attack/shortage).
     
 - SQLi/XSS tests pass; accessibility checks logged.
-    
+
+- By M2: hosted HTML5 build URL + live API URL published; smoke tests run against hosted build.
+
+- CI artifact: test report includes SQLi/XSS checks + accessibility notes.
+
 
 ---
 
 ## 12) Deployment & CI/CD
 
-- **Web/Downloads**: itch.io (HTML5 **PROPOSED**) or desktop builds; page hosts links & instructions.
+- **Client hosting**: itch.io (HTML5 **REQUIRED for capstone**) Project page acts as canonical subdomain.
     
-- **API**: Render/Railway with Dockerfile; healthcheck.
+- **API host**: Render (or Railway) + Dockerfile, healthcheck.
     
-- **DB**: Neon/Supabase; weekly snapshots; `.sql` dumps in repo artifacts.
+- **DB**: Neon or Supabase (managed Postgres); weekly snapshots; `.sql` dumps in repo artifacts.
     
-- **CI**: GitHub Actions to run unit/integration tests; export Godot; deploy API.
-    
+- **CI**: GitHub Actions exports Godot HTML5 + desktop, runs tests, deploys API.
+
+- **Access URLs**: <itch.io game URL>, <API base URL>.
+
+- **Cost (3 months)**: itch.io: $0; Render free tier: $0; Neon/Supabase free tier: $0–$9 depending on usage.
+
+- **Milestone gate**: By M2, live HTML5 build + live API (both URLs in README).
+
+### 12.1 itch.io Hosting Constraints (Academic Compliance)
+
+**Authentication Approach**: Bearer JWT in `Authorization` headers (cookies won't work in third-party iframe)
+
+**Security Headers**: API enforces CSP + CORS allowlist; client headers not controllable on itch.io
+
+**Performance Gates**: Bundle ≤ 25 MB, TTFF ≤ 5s (Playwright measured), HTML5 ≥30 FPS goal with 5 NPCs
+
+**Testing Strategy**: API-only ZAP scanning; client testing via Playwright automation
+
 
 ---
 
@@ -449,8 +596,20 @@ COMMIT;
     
 - **Placeholders**: dummy sprites/models; replace via `res://assets/` later.
     
+### 16.1 Mobile-First UI (Godot)
+
+- **Layout**: Control-node containers (VBox/HBox/Grid/Tab/Panel), anchors/margins for scaling.
+
+- **Breakpoints**: use DisplayServer.screen_get_size() to select HUD variants.
+
+- **Touch**: larger hitboxes (>= 44 px), on-screen sticks/buttons via TouchScreenButton.
+
+- **Accessibility**: high-contrast theme, font scaling, color-blind palettes, narration hooks.
+
+- **Performance**: CanvasItem batching, compressed textures, lower shadow resolution on mobile.
+
 - **Figure 1 — Aesthetic reference (placeholder until final art):**
-    
+
 
 ![Visual tone reference](sandbox:/mnt/data/9F860BF2-DDBA-4F98-B6DA-47ACBE5C563F.jpeg)
 
@@ -503,12 +662,231 @@ Done—new canvas is up: **“Dizzy’s Disease — Godot Technical Spec Pack v1
 
   
 
+## 14) Error Handling & Logging (Academic Compliance)
+
+### 14.1 Client-Side Error Handling
+
+**Godot Error Management**:
+- **Scene Errors**: Graceful fallbacks for missing scenes, corrupted saves, network failures
+- **Resource Loading**: Retry mechanisms, fallback assets, user feedback for loading failures
+- **Input Validation**: Client-side validation with server-side verification, error state management
+- **Network Errors**: Connection timeouts, retry logic, offline mode with queue synchronization
+
+**User Experience**:
+- **Error Messages**: User-friendly error descriptions, actionable recovery steps
+- **Progress Feedback**: Loading indicators, operation status, timeout notifications
+- **State Recovery**: Auto-save mechanisms, crash recovery, session restoration
+- **Fallback Systems**: Offline mode, cached data usage, graceful degradation
+
+### 14.2 Server-Side Error Handling
+
+**API Error Management**:
+- **Request Validation**: Input sanitization, type checking, business rule validation
+- **Database Errors**: Connection failures, constraint violations, transaction rollbacks
+- **Authentication Errors**: Token validation, permission checks, rate limiting responses
+- **External Service Errors**: Third-party API failures, email service outages, backup providers
+
+**Error Response Standards**:
+- **HTTP Status Codes**: Consistent usage (400 Bad Request, 401 Unauthorized, 403 Forbidden, 500 Internal Server Error)
+- **Error Payloads**: Structured error objects with error codes, messages, and context
+- **Security Considerations**: No sensitive information leakage, consistent error timing
+- **Logging Integration**: Correlated error IDs, structured logging, alerting thresholds
+
+### 14.3 Comprehensive Logging Strategy
+
+**Application Logging**:
+- **Log Levels**: DEBUG, INFO, WARN, ERROR, FATAL with appropriate usage
+- **Structured Logging**: JSON format, consistent field naming, searchable attributes
+- **Context Preservation**: Request IDs, user IDs, session tracking, operation correlation
+- **Performance Logging**: Response times, resource usage, bottleneck identification
+
+**Security & Audit Logging**:
+- **Authentication Events**: Login attempts, password changes, token usage, failures
+- **Authorization Events**: Permission checks, role changes, access denials
+- **Data Access**: Sensitive data queries, exports, modifications, deletions
+- **System Events**: Configuration changes, user management, privilege escalations
+
+**Log Management**:
+- **Retention Policies**: 90 days for debug logs, 1 year for audit logs, permanent for security incidents
+- **Storage Strategy**: Local files for development, centralized logging for production
+- **Monitoring Integration**: Real-time alerting, dashboard metrics, trend analysis
+- **Privacy Compliance**: PII masking, data anonymization, compliance reporting
+
+## 15) Data Integrity & Validation (Academic Compliance)
+
+### 15.1 Input Validation Framework
+
+**Client-Side Validation**:
+- **Form Validation**: Real-time input validation, pattern matching, length constraints
+- **Type Safety**: Type checking for all user inputs, numeric range validation
+- **Format Validation**: Email formats, password complexity, username patterns
+- **User Feedback**: Immediate validation feedback, clear error messages, guided correction
+
+**Server-Side Validation**:
+- **Comprehensive Validation**: Re-validate all client inputs on server-side
+- **Business Rule Enforcement**: Game rules, economic constraints, logical consistency
+- **SQL Injection Prevention**: Parameterized queries only, input sanitization
+- **Data Sanitization**: HTML encoding, special character handling, XSS prevention
+
+### 15.2 Database Integrity
+
+**Referential Integrity**:
+- **Foreign Key Constraints**: Enforce relationships between tables, cascade rules
+- **Check Constraints**: Business rule enforcement at database level
+- **Unique Constraints**: Prevent duplicate data, ensure data quality
+- **Not Null Constraints**: Required field enforcement, data completeness
+
+**Transaction Management**:
+- **ACID Compliance**: Atomicity, Consistency, Isolation, Durability for all operations
+- **Transaction Boundaries**: Proper transaction scoping, rollback strategies
+- **Deadlock Handling**: Deadlock detection, retry mechanisms, timeout management
+- **Consistency Checks**: Data validation across related tables, integrity verification
+
+### 15.3 Data Validation Layers
+
+**API Layer Validation**:
+- **Request Validation**: Schema validation, required field checking, format verification
+- **Authentication Validation**: Token verification, permission checking, rate limiting
+- **Business Logic Validation**: Game rule enforcement, economic constraints
+- **Response Validation**: Ensure data consistency in API responses
+
+**Database Layer Validation**:
+- **Constraint Enforcement**: Primary keys, foreign keys, unique constraints, check constraints
+- **Trigger Validation**: Complex business rule enforcement via database triggers
+- **Data Type Enforcement**: Strict typing, range validation, enum constraints
+- **Audit Trail**: Change tracking, version control, modification history
+
+**Application Layer Validation**:
+- **Model Validation**: Object-level validation, relationship validation
+- **Service Layer Validation**: Business logic validation, cross-service consistency
+- **Integration Validation**: External API data validation, third-party service responses
+- **Cache Validation**: Data consistency between cache and database
+
+## 16) Implementation Timeline: 4-Gate Approach
+
+**Goal**: Pragmatic milestone-based development optimized for AI agent + human collaboration, with hosted validation at each gate.
+
+### Gate 1 — Foundation (≈1 week)
+
+**Goal**: Ship a blank, hosted HTML5 build with CI/CD, API, DB, and security testing.
+
+**AI Agent Tasks**:
+- Godot project scaffold; export presets (HTML5 + desktop)
+- CI: run tests → export HTML5 → deploy client; build & deploy API (Render/Railway) with `/health`, `/version`
+- PostgreSQL (Neon/Supabase); migrations wired; OpenAPI auto-gen at `/openapi.json`
+- **itch.io Auth**: Bearer JWT in `Authorization` headers (no cookies in iframe)
+- **Security**: API-only ZAP baseline, parameterized SQL, CORS allowlist
+- **Performance Gates**: Bundle ≤ 25 MB; Playwright TTFF probe
+- Test harness baseline (GUT/pytest)
+
+**Human Tasks**:
+- Art direction: moodboard, palette, font candidates, UI wireframes
+- Asset budget sheet: triangle/texture budgets for HTML5
+- Placeholder kit list: proxy character, weapon, UI sprites
+
+**Pass = Ship**:
+- Hosted HTML5 URL loads (Chrome/Edge); API `/health` green; CI green on push
+- Auth = Bearer JWT documented; no cookie dependencies on itch.io
+- CI bundle gate enforces ≤ 25 MB; Playwright logs baseline TTFF
+- ZAP API report attached with no High severity findings
+
+### Gate 2 — Core Loop (≈1–1.5 weeks)
+
+**Goal**: A fun graybox loop you can resume later—all code/data, minimal art.
+
+**AI Agent Tasks**:
+- TPS rig + camera; Basic Zombie (capsule + navmesh); hitscan pistol; health HUD
+- **Client-auth saves**: position/progression (offline queue with deterministic IDs)
+- **Accessibility (early)**: input remap + font scaling + captions toggle
+- Basic inventory: equip/unequip, durability; seed 20 items
+- **Performance monitoring**: in-game sampler posts FPS/memory report to API after 60s
+
+**Human Tasks**:
+- Wireframes → first-pass HUD/mock screens (grayscale)
+- Character silhouette exploration (blockouts)
+- Sound palette sketches
+
+**Pass = Ship**:
+- From hosted build: login → play → quit → continue later (client state intact)
+- ≥60 FPS desktop; **≥30 FPS HTML5 goal** with 5 NPCs (accept 25-30 on low-end)
+- OpenAPI reachable; performance report received by API
+- Input remap, font scaling, captions functional
+
+### Gate 3 — Features (≈1–1.5 weeks)
+
+**Goal**: Market works atomically and responds to events; zones/perception in place.
+
+**AI Agent Tasks**:
+- Safe/hostile zones; spawn volumes; vision/hearing perception
+- **Server-auth market**: currency/inventory only (hybrid authority)
+- **Idempotent buy/sell**: `X-Request-Id` header, `orders(request_id uuid PRIMARY KEY)`, `INSERT ... ON CONFLICT (request_id) DO NOTHING RETURNING *`
+- Settlement resource signal → price curve change (scripted event)
+- **Security validation**: SQLi/XSS probes, ZAP report attached
+
+**Human Tasks**:
+- HUD first-pass visuals (typography, spacing, icon placeholders)
+- Temp character selection (Mixamo/proxy route)
+- Color-blind palette verification
+
+**Pass = Ship**:
+- Hosted demo shows event-driven price shift
+- **No double-spend** under 25-request chaos test
+- ZAP API report: no High severity findings
+- Market transactions idempotent and atomic
+
+### Gate 4 — Polish (≈1 week)
+
+**Goal**: Production-ready academic submission with visual cohesion.
+
+**AI Agent Tasks**:
+- Difficulty presets; XP/level-up affecting gameplay
+- Error handling & offline queue robustness
+- Desktop export presets finalized
+- **CI provenance bundle**: URLs, commit SHA, OpenAPI hash, performance reports
+
+**Human Tasks**:
+- Aesthetic pass: palette locked, HUD icons, minimal environment
+- Accessibility polish: high-contrast verification, controller support
+- Final presentation assets; gameplay capture from hosted build
+
+**Pass = Ship**:
+- Visual consistency maintained; accessibility standards met
+- Performance thresholds achieved: bundle ≤ 25 MB, TTFF ≤ 5s, stable 30 FPS
+- All acceptance criteria satisfied from hosted build
+- Academic deliverables complete with evidence
+
+## 17) Hybrid Authority Architecture
+
+**Design Principle**: Client-authoritative for low-risk data, server-authoritative for economic data.
+
+### Client-Authoritative (Offline Queue)
+- **Position/Movement**: Player location, rotation, camera state
+- **Progression**: XP gains, skill improvements, cosmetic unlocks
+- **UI State**: Settings, preferences, tutorial progress
+- **Implementation**: `Save.gd` queues events with deterministic IDs for API sync
+
+### Server-Authoritative (Immediate Validation)
+- **Currency**: All money transactions, balance validation
+- **Inventory**: Item ownership, transfers, market transactions
+- **Market**: Buy/sell operations, price calculations
+- **Implementation**: API validates and processes; client receives authoritative state
+
+### Idempotency Pattern (Market Only)
+```javascript
+// Client sends:
+headers: { 'X-Request-Id': crypto.randomUUID() }
+
+// API implements:
+INSERT INTO orders (request_id, user_id, item_id, quantity, price)
+VALUES ($1, $2, $3, $4, $5)
+ON CONFLICT (request_id) DO NOTHING
+RETURNING *;
+```
+
 ### **What you still need to decide (you can leave these as defaults for now)**
 
 - Pick a **default perspective** for Milestone 2 polish (rigs are swappable during dev).
-    
-- Confirm **acceptance thresholds** (e.g., NPC count≥20 @60 FPS; market reaction windows).
-    
+
 - Choose backend stack for the API (FastAPI vs Express). The spec supports both.
     
 

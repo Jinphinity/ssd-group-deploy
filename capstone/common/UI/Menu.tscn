@@ -1,6 +1,9 @@
-[gd_scene format=3]
+[gd_scene load_steps=2 format=3 uid="uid://b4h9f2k1m3n5p"]
+
+[ext_resource type="Script" path="res://common/UI/Menu.gd" id="1_menu"]
 
 [node name="Menu" type="CanvasLayer"]
+script = ExtResource("1_menu")
 
 [node name="Root" type="Control" parent="."]
 layout_mode = 3
@@ -10,9 +13,83 @@ anchor_bottom = 1.0
 offset_right = 0.0
 offset_bottom = 0.0
 
-[node name="Title" type="Label" parent="Root"]
-layout_mode = 2
+[node name="VBoxContainer" type="VBoxContainer" parent="Root"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
 offset_left = 24.0
 offset_top = 24.0
+offset_right = -24.0
+offset_bottom = -24.0
+
+[node name="Title" type="Label" parent="Root/VBoxContainer"]
+layout_mode = 2
 text = "Dizzy's Disease"
+horizontal_alignment = 1
+
+[node name="HSeparator" type="HSeparator" parent="Root/VBoxContainer"]
+layout_mode = 2
+
+[node name="UserInfo" type="HBoxContainer" parent="Root/VBoxContainer"]
+layout_mode = 2
+
+[node name="UserLabel" type="Label" parent="Root/VBoxContainer/UserInfo"]
+layout_mode = 2
+text = "Not logged in"
+
+[node name="Spacer" type="Control" parent="Root/VBoxContainer/UserInfo"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="LoginButton" type="Button" parent="Root/VBoxContainer/UserInfo"]
+layout_mode = 2
+text = "Login"
+
+[node name="LogoutButton" type="Button" parent="Root/VBoxContainer/UserInfo"]
+layout_mode = 2
+text = "Logout"
+visible = false
+
+[node name="HSeparator2" type="HSeparator" parent="Root/VBoxContainer"]
+layout_mode = 2
+
+[node name="GameControls" type="VBoxContainer" parent="Root/VBoxContainer"]
+layout_mode = 2
+
+[node name="PlayButton" type="Button" parent="Root/VBoxContainer/GameControls"]
+layout_mode = 2
+text = "Continue Game"
+
+[node name="NewGameButton" type="Button" parent="Root/VBoxContainer/GameControls"]
+layout_mode = 2
+text = "New Game"
+
+[node name="MarketButton" type="Button" parent="Root/VBoxContainer/GameControls"]
+layout_mode = 2
+text = "Market"
+
+[node name="OptionsButton" type="Button" parent="Root/VBoxContainer/GameControls"]
+layout_mode = 2
+text = "Options"
+
+[node name="QuitButton" type="Button" parent="Root/VBoxContainer/GameControls"]
+layout_mode = 2
+text = "Quit"
+
+[node name="HSeparator3" type="HSeparator" parent="Root/VBoxContainer"]
+layout_mode = 2
+
+[node name="StatusLabel" type="Label" parent="Root/VBoxContainer"]
+layout_mode = 2
+text = ""
+horizontal_alignment = 1
+
+[connection signal="pressed" from="Root/VBoxContainer/UserInfo/LoginButton" to="." method="_on_login_pressed"]
+[connection signal="pressed" from="Root/VBoxContainer/UserInfo/LogoutButton" to="." method="_on_logout_pressed"]
+[connection signal="pressed" from="Root/VBoxContainer/GameControls/PlayButton" to="." method="_on_play_pressed"]
+[connection signal="pressed" from="Root/VBoxContainer/GameControls/NewGameButton" to="." method="_on_new_game_pressed"]
+[connection signal="pressed" from="Root/VBoxContainer/GameControls/MarketButton" to="." method="_on_market_pressed"]
+[connection signal="pressed" from="Root/VBoxContainer/GameControls/OptionsButton" to="." method="_on_options_pressed"]
+[connection signal="pressed" from="Root/VBoxContainer/GameControls/QuitButton" to="." method="_on_quit_pressed"]
 

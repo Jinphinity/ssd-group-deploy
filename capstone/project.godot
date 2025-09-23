@@ -11,9 +11,9 @@ config_version=5
 [application]
 
 config/name="Capstone"
+run/main_scene="res://common/UI/LoginScreen.tscn"
 config/features=PackedStringArray("4.4", "GL Compatibility")
 config/icon="res://icon.svg"
-run/main_scene="res://stages/Stage_Outpost.tscn"
 
 [autoload]
 
@@ -21,12 +21,21 @@ Game="*res://autoload/Game.gd"
 Config="*res://autoload/Config.gd"
 Save="*res://autoload/Save.gd"
 Api="*res://autoload/Api.gd"
+AuthController="*res://autoload/AuthController.gd"
 Time="*res://autoload/Time.gd"
 Audio="*res://autoload/Audio.gd"
 Analytics="*res://autoload/Analytics.gd"
 Accessibility="*res://autoload/Accessibility.gd"
+ScreenShake="*res://autoload/ScreenShake.gd"
+PerformanceMonitor="*res://common/Util/PerformanceMonitor.gd"
+ZoneManager="*res://common/World/ZoneManager.gd"
 
 [rendering]
 
 renderer/rendering_method="gl_compatibility"
 renderer/rendering_method.mobile="gl_compatibility"
+
+[logging]
+
+file_logging/enable_file_logging=true
+file_logging/log_path="user://logs/capstone_runtime.log"

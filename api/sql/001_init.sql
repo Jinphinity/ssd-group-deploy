@@ -112,6 +112,18 @@ CREATE TABLE IF NOT EXISTS leaderboards (
   created_at TIMESTAMP NOT NULL DEFAULT NOW()
 );
 
+-- Orders table for idempotency pattern
+CREATE TABLE IF NOT EXISTS orders (
+  request_id UUID PRIMARY KEY,
+  user_id INT NOT NULL REFERENCES users(user_id) ON DELETE CASCADE,
+  item_id INT NOT NULL REFERENCES items(item_id) ON DELETE RESTRICT,
+  quantity INT NOT NULL,
+  price DECIMAL(10,2) NOT NULL,
+  order_type TEXT NOT NULL CHECK (order_type IN ('buy','sell')),
+  created_at TIMESTAMP NOT NULL DEFAULT NOW(),
+  completed BOOLEAN NOT NULL DEFAULT FALSE
+);
+
 -- Seed minimal data
 INSERT INTO settlements(name) VALUES ('Outpost One') ON CONFLICT DO NOTHING;
 INSERT INTO items(name, type, slot_size, weight, durability_max, armor_dr, damage, noise, noise_radius)

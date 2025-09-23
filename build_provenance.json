@@ -1,0 +1,387 @@
+{
+  "artifacts": {
+    "build_outputs": {
+      "configuration": "pending_build",
+      "data_files": "pending_build",
+      "executable": "pending_build"
+    },
+    "deployment_artifacts": {
+      "distribution_packages": "pending",
+      "documentation": "generated",
+      "installer": "pending"
+    },
+    "documentation_artifacts": [
+      "CHANGELOG.md",
+      "ADR/",
+      "TASKS/",
+      "build_provenance.json"
+    ],
+    "test_artifacts": {
+      "coverage_reports": "pending",
+      "performance_reports": "pending",
+      "test_reports": "pending"
+    }
+  },
+  "build": {
+    "build_configuration": {
+      "architecture": "AMD64",
+      "assertions_enabled": true,
+      "build_type": "Development",
+      "debug_symbols": true,
+      "optimization_level": "Debug",
+      "target_platform": "Windows"
+    },
+    "build_duration_estimate": "calculated_post_build",
+    "build_timestamp": 1758000582.734289,
+    "export_presets": [
+      "Windows Desktop",
+      "Linux Desktop",
+      "macOS Desktop"
+    ],
+    "godot_version": "Godot 5",
+    "project_settings": {
+      "application_name": "Dizzy's Disease",
+      "audio_backend": "PulseAudio/WASAPI",
+      "physics_engine": "Godot Physics",
+      "rendering_backend": "Vulkan",
+      "script_language": "GDScript",
+      "target_platforms": [
+        "Windows",
+        "Linux",
+        "macOS"
+      ]
+    }
+  },
+  "compliance": {
+    "academic_requirements": {
+      "gate_1_foundation": {
+        "compliance_date": "2024-01-15",
+        "requirements": [
+          "project_setup",
+          "database_schema",
+          "basic_mechanics"
+        ],
+        "status": "completed"
+      },
+      "gate_2_core_loop": {
+        "compliance_date": "2024-01-16",
+        "requirements": [
+          "xp_system",
+          "weapon_proficiencies",
+          "seed_data"
+        ],
+        "status": "completed"
+      },
+      "gate_3_features": {
+        "compliance_date": "2024-01-17",
+        "requirements": [
+          "error_handling",
+          "input_validation",
+          "documentation"
+        ],
+        "status": "in_progress"
+      },
+      "gate_4_polish": {
+        "compliance_date": "pending",
+        "requirements": [
+          "difficulty_presets",
+          "ai_behaviors",
+          "security"
+        ],
+        "status": "pending"
+      }
+    },
+    "code_quality": {
+      "academic_references_present": true,
+      "error_handling_implemented": true,
+      "input_validation_implemented": true,
+      "structured_logging_implemented": true
+    },
+    "documentation_compliance": {
+      "adr_present": true,
+      "changelog_present": true,
+      "readme_present": false,
+      "tasks_present": true
+    },
+    "section_compliance": {
+      "section_14_error_handling": "implemented",
+      "section_15_input_validation": "implemented",
+      "section_6_progression": "implemented",
+      "section_9_database": "implemented"
+    }
+  },
+  "dependencies": {
+    "godot": {
+      "features": [
+        "3D Graphics",
+        "Physics Engine",
+        "Audio System",
+        "Input Handling",
+        "Scene System",
+        "GDScript Support",
+        "C# Support",
+        "Export System"
+      ],
+      "version": "Godot 5"
+    },
+    "python": {
+      "packages": {
+        "aiofiles": "24.1.0",
+        "aiohappyeyeballs": "2.6.1",
+        "aiohttp": "3.12.15",
+        "aiosignal": "1.4.0",
+        "annotated-types": "0.7.0",
+        "anthropic": "0.58.2",
+        "anyio": "4.10.0",
+        "argcomplete": "3.6.2",
+        "attrs": "25.3.0",
+        "authlib": "1.6.1",
+        "backoff": "2.2.1",
+        "beautifulsoup4": "4.13.4",
+        "browser-use": "0.5.11",
+        "bubus": "1.5.1",
+        "cachetools": "5.5.2",
+        "certifi": "2025.8.3",
+        "cffi": "1.17.1",
+        "charset-normalizer": "3.4.3",
+        "click": "8.2.1",
+        "colorama": "0.4.6",
+        "cryptography": "45.0.6",
+        "distro": "1.9.0",
+        "dnspython": "2.7.0",
+        "email-validator": "2.2.0",
+        "frozenlist": "1.7.0",
+        "google-api-core": "2.25.1",
+        "google-api-python-client": "2.179.0",
+        "google-auth": "2.40.3",
+        "google-auth-httplib2": "0.2.0",
+        "google-auth-oauthlib": "1.2.2",
+        "google-genai": "1.29.0",
+        "googleapis-common-protos": "1.70.0",
+        "greenlet": "3.2.4",
+        "groq": "0.31.0",
+        "h11": "0.16.0",
+        "httpcore": "1.0.9",
+        "httplib2": "0.22.0",
+        "httpx": "0.28.1",
+        "httpx-sse": "0.4.1",
+        "idna": "3.10",
+        "jiter": "0.10.0",
+        "jsonschema": "4.25.0",
+        "jsonschema-specifications": "2025.4.1",
+        "loguru": "0.7.3",
+        "markdown-it-py": "3.0.0",
+        "markdown-pdf": "1.5",
+        "markdownify": "1.1.0",
+        "mcp": "1.12.4",
+        "mdurl": "0.1.2",
+        "multidict": "6.6.4",
+        "oauthlib": "3.3.1",
+        "ollama": "0.5.3",
+        "openai": "1.99.2",
+        "packaging": "25.0",
+        "patchright": "1.52.5",
+        "pip": "25.2",
+        "pipx": "1.7.1",
+        "platformdirs": "4.3.8",
+        "playwright": "1.54.0",
+        "portalocker": "2.10.1",
+        "posthog": "6.5.0",
+        "propcache": "0.3.2",
+        "proto-plus": "1.26.1",
+        "protobuf": "6.31.1",
+        "psutil": "7.0.0",
+        "pyasn1": "0.6.1",
+        "pyasn1-modules": "0.4.2",
+        "pycparser": "2.22",
+        "pydantic": "2.11.7",
+        "pydantic-core": "2.33.2",
+        "pydantic-settings": "2.10.1",
+        "pyee": "13.0.0",
+        "pygments": "2.19.2",
+        "pymupdf": "1.25.3",
+        "pyparsing": "3.2.3",
+        "pypdf": "6.0.0",
+        "pypdf2": "3.0.1",
+        "pyperclip": "1.9.0",
+        "python-dateutil": "2.9.0.post0",
+        "python-dotenv": "1.1.1",
+        "python-multipart": "0.0.20",
+        "pywin32": "311",
+        "referencing": "0.36.2",
+        "requests": "2.32.4",
+        "requests-oauthlib": "2.0.0",
+        "rich": "14.1.0",
+        "rpds-py": "0.27.0",
+        "rsa": "4.9.1",
+        "screeninfo": "0.8.1",
+        "semver": "3.0.4",
+        "setuptools": "65.5.0",
+        "six": "1.17.0",
+        "sniffio": "1.3.1",
+        "soupsieve": "2.7",
+        "sse-starlette": "3.0.2",
+        "starlette": "0.47.2",
+        "structlog": "25.4.0",
+        "superclaude": "4.0.8",
+        "tenacity": "9.1.2",
+        "tqdm": "4.67.1",
+        "typing-extensions": "4.14.1",
+        "typing-inspection": "0.4.1",
+        "uritemplate": "4.2.0",
+        "urllib3": "2.5.0",
+        "userpath": "1.9.2",
+        "uuid7": "0.1.0",
+        "uvicorn": "0.35.0",
+        "websockets": "15.0.1",
+        "win32-setctime": "1.2.0",
+        "yarl": "1.20.1"
+      },
+      "version": "3.11.7"
+    },
+    "system": {
+      "libraries": [
+        "OpenGL",
+        "Vulkan",
+        "DirectX",
+        "Audio Libraries"
+      ],
+      "tools": {
+        "git": "git version 2.50.1.windows.1",
+        "godot": "Not available",
+        "python": "Python 3.11.7"
+      }
+    }
+  },
+  "environment": {
+    "build_machine": {
+      "home": "C:\\Users\\jinph",
+      "hostname": "VaisRoisPC",
+      "pwd": "C:\\Users\\jinph\\Documents\\00_Repositories\\capstone",
+      "user": "jinph"
+    },
+    "ci_environment": {
+      "ci_provider": "Local Development",
+      "ci_variables": {},
+      "is_ci": false
+    },
+    "environment_variables": {
+      "HOME": "C:\\Users\\jinph",
+      "PATH": "C:\\Users\\jinph\\bin;C:\\Program Files\\Git\\mingw64\\bin;C:\\Program Files\\Git\\usr\\local\\bin;C:\\Program Files\\Git\\usr\\bin;C:\\Program Files\\Git\\usr\\bin;C:\\Program Files\\Git\\mingw64\\bin;C:\\Program Files\\Git\\usr\\bin;C:\\Users\\jinph\\bin;C:\\Program Files\\Python311\\Scripts;C:\\Program Files\\Python311;C:\\WINDOWS\\system32;C:\\WINDOWS;C:\\WINDOWS\\System32\\Wbem;C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0;C:\\WINDOWS\\System32\\OpenSSH;C:\\Program Files\\Microsoft SQL Server\\150\\Tools\\Binn;C:\\Program Files\\Microsoft SQL Server\\Client SDK\\ODBC\\170\\Tools\\Binn;C:\\Program Files (x86)\\Windows Kits\\10\\Windows Performance Toolkit;C:\\Program Files (x86)\\NVIDIA Corporation\\PhysX\\Common;C:\\Program Files\\dotnet;C:\\Program Files\\NVIDIA Corporation\\NVIDIA app\\NvDLISR;C:\\Users\\jinph\\anaconda3;C:\\Users\\jinph\\anaconda3\\Scripts;C:\\Users\\jinph\\anaconda3\\Library\\bin;C:\\Users\\jinph\\AppData\\Local\\Programs\\cursor\\resources\\app\\bin;C:\\Program Files\\Docker\\Docker\\resources\\bin;C:\\Program Files\\GitHub CLI;C:\\ProgramData\\chocolatey\\bin;C:\\Program Files\\nodejs;C:\\Program Files\\Git\\cmd;C:\\Program Files\\MySQL\\MySQL Shell 8.0\\bin;C:\\Users\\jinph\\AppData\\Local\\Microsoft\\WindowsApps;C:\\Users\\jinph\\AppData\\Local\\Programs\\Microsoft VS Code\\bin;C:\\Users\\jinph\\.dotnet\\tools;C:\\Program Files\\JetBrains\\JetBrains Rider 2024.2.7\\bin;C:\\Users\\jinph\\AppData\\Local\\Programs\\cursor\\resources\\app\\bin;C:\\Users\\jinph\\AppData\\Local\\Programs\\Windsurf\\bin;C:\\Users\\jinph\\AppData\\Local\\GitHubDesktop\\bin;C:\\Users\\jinph\\AppData\\Local\\Pandoc;C:\\Users\\jinph\\AppData\\Roaming\\npm;C:\\users\\jinph\\.local\\bin;C:\\users\\jinph\\appdata\\roaming\\python\\python311\\scripts;C:\\Program Files\\Git\\usr\\bin\\vendor_perl;C:\\Program Files\\Git\\usr\\bin\\core_perl"
+    },
+    "platform": {
+      "machine": "AMD64",
+      "processor": "Intel64 Family 6 Model 183 Stepping 1, GenuineIntel",
+      "python_implementation": "CPython",
+      "python_version": "3.11.7",
+      "release": "10",
+      "system": "Windows",
+      "version": "10.0.22631"
+    }
+  },
+  "git": {
+    "branch": "main",
+    "commit_author": "Jin Zhang <65419441+Jinphinity@users.noreply.github.com>",
+    "commit_count": 1,
+    "commit_date": "2025-09-15 09:50:15 -0400",
+    "commit_message": "Initial commit: Dizzy's Disease game project\n\n- Godot game project with core systems implemented\n- FastAPI backend with authentication and game API\n- Docker setup for development environment\n- Game design documentation and specifications",
+    "commit_sha": "f0b8b0c59c66e192cd9d28706ac5f5365ab523fd",
+    "commit_short": "f0b8b0c",
+    "dirty_files": [
+      "M .github/workflows/ci.yml",
+      "M \"Dizzy's Disease Specification.md\"",
+      "M api/app.py",
+      "M api/sql/001_init.sql",
+      "M capstone/autoload/Api.gd",
+      "M capstone/autoload/Save.gd",
+      "M capstone/common/AI/WaveSpawner.gd",
+      "M capstone/common/Economy/MarketController.gd",
+      "M capstone/common/UI/MarketUI.gd",
+      "M capstone/docs/BUILD_STATUS.md",
+      "M capstone/entities/NPC/Zombie_Basic.gd",
+      "M capstone/entities/Player/PlayerController.gd",
+      "M capstone/project.godot",
+      "M capstone/stages/Stage_Outpost.gd",
+      "?? .claude/",
+      "?? ADR/",
+      "?? CHANGELOG.md",
+      "?? TASKS/",
+      "?? api/error_handling.py",
+      "?? api/sql/002_comprehensive_seed.sql",
+      "?? build_provenance.py",
+      "?? capstone/common/Util/PerformanceMonitor.gd",
+      "?? capstone/common/World/",
+      "?? scripts/"
+    ],
+    "is_dirty": true,
+    "latest_tag": "No tags found",
+    "remote_url": "git@github.com:Jinphinity/capstone.git"
+  },
+  "metadata": {
+    "academic_project": true,
+    "build_id": "build-1758000582",
+    "build_time": "2025-09-16T05:29:42.734289+00:00",
+    "build_timestamp": 1758000582.734289,
+    "compliance_framework": "Academic Software Engineering Requirements",
+    "generator": "Dizzy's Disease Build Provenance Generator",
+    "project_name": "Dizzy's Disease",
+    "project_type": "Godot 4.4 Survival RPG",
+    "version": "1.0.0"
+  },
+  "performance": {
+    "academic_requirements": {
+      "gate2_fps_requirement": 60,
+      "npc_count_target": 50,
+      "performance_compliance": "evaluated_post_build"
+    },
+    "benchmarks": {
+      "last_performance_test": "pending",
+      "performance_report_url": "generated_post_build"
+    },
+    "build_metrics": {
+      "estimated_duration": "calculated_post_build",
+      "resource_usage": "calculated_post_build"
+    },
+    "game_performance": {
+      "loading_time_target_ms": 3000,
+      "memory_budget_mb": 512,
+      "min_fps_requirement": 30,
+      "target_fps": 60
+    }
+  },
+  "provenance_hash": "d6ee30b06508bca94adc5b7e03d2fd705f86b0e075a9bda318e652646461ad07",
+  "reproducibility": {
+    "build_command": "godot --headless --build",
+    "build_environment": {
+      "deterministic": true,
+      "isolated": false,
+      "reproducible": true
+    },
+    "build_instructions": {
+      "prerequisites": [
+        "Godot 4.4 or later",
+        "Python 3.8+ for build scripts",
+        "PostgreSQL for database"
+      ],
+      "steps": [
+        "Clone repository",
+        "Run 'python build_provenance.py'",
+        "Open project in Godot",
+        "Execute build command"
+      ]
+    },
+    "checksums": {
+      "configuration_files": {
+        "api/requirements.txt": "b9a5a50990603d4cee31813ef90c3a08008269c8fd45ad0d76c9d7c4bd65e1e4",
+        "capstone/export_presets.cfg": "2d16334d27aa40a2a6abcb26c77342cc68fc1239cf8bd0a9cb813160634e2051",
+        "docker-compose.yml": "0673d76e97e65db2969c3ce15d52a7ea3bafb8e866039771433d3a430995cc19"
+      },
+      "project_files": {
+        "CHANGELOG.md": "4f3c5b1c190430d1e6aa5c836507e2ad934699f5618294e434c931a81da675d6",
+        "api/app.py": "8a734266724868d1f50b1bb433d5078f5fb20b72b13b79a1b36d9894a3455a3e",
+        "build_provenance.py": "f0c68b0a35048fd365ee7b62dcf4a76b5cab5e330199f5337226593c1bfc86da",
+        "capstone/project.godot": "2942af7ec1c6fe9fc72cb8903fd583e0c619be2d5c2f08acfc4a37a10ebf0a2c"
+      }
+    }
+  }
+}

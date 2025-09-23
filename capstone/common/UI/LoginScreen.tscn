@@ -1,0 +1,121 @@
+[gd_scene load_steps=2 format=3 uid="uid://c3k7w8nan1p2r"]
+
+[ext_resource type="Script" path="res://common/UI/LoginScreen.gd" id="1_x2k4j"]
+
+[node name="LoginScreen" type="CanvasLayer"]
+script = ExtResource("1_x2k4j")
+
+[node name="Background" type="ColorRect" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color(0.1, 0.1, 0.15, 1)
+
+[node name="CenterContainer" type="CenterContainer" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+
+[node name="LoginPanel" type="Panel" parent="CenterContainer"]
+layout_mode = 2
+custom_minimum_size = Vector2(400, 500)
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer/LoginPanel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 20.0
+offset_top = 20.0
+offset_right = -20.0
+offset_bottom = -20.0
+
+[node name="Title" type="Label" parent="CenterContainer/LoginPanel/VBoxContainer"]
+layout_mode = 2
+text = "Dizzy's Disease"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Subtitle" type="Label" parent="CenterContainer/LoginPanel/VBoxContainer"]
+layout_mode = 2
+text = "Login to continue"
+horizontal_alignment = 1
+
+[node name="HSeparator" type="HSeparator" parent="CenterContainer/LoginPanel/VBoxContainer"]
+layout_mode = 2
+
+[node name="EmailLabel" type="Label" parent="CenterContainer/LoginPanel/VBoxContainer"]
+layout_mode = 2
+text = "Email:"
+
+[node name="EmailInput" type="LineEdit" parent="CenterContainer/LoginPanel/VBoxContainer"]
+layout_mode = 2
+placeholder_text = "Enter your email"
+
+[node name="PasswordLabel" type="Label" parent="CenterContainer/LoginPanel/VBoxContainer"]
+layout_mode = 2
+text = "Password:"
+
+[node name="PasswordInput" type="LineEdit" parent="CenterContainer/LoginPanel/VBoxContainer"]
+layout_mode = 2
+placeholder_text = "Enter your password"
+secret = true
+
+[node name="HSeparator2" type="HSeparator" parent="CenterContainer/LoginPanel/VBoxContainer"]
+layout_mode = 2
+
+[node name="LoginButton" type="Button" parent="CenterContainer/LoginPanel/VBoxContainer"]
+layout_mode = 2
+text = "Login"
+
+[node name="RegisterButton" type="Button" parent="CenterContainer/LoginPanel/VBoxContainer"]
+layout_mode = 2
+text = "Register New Account"
+
+[node name="HSeparator3" type="HSeparator" parent="CenterContainer/LoginPanel/VBoxContainer"]
+layout_mode = 2
+
+[node name="RegisterPanel" type="VBoxContainer" parent="CenterContainer/LoginPanel/VBoxContainer"]
+layout_mode = 2
+visible = false
+
+[node name="DisplayNameLabel" type="Label" parent="CenterContainer/LoginPanel/VBoxContainer/RegisterPanel"]
+layout_mode = 2
+text = "Display Name:"
+
+[node name="DisplayNameInput" type="LineEdit" parent="CenterContainer/LoginPanel/VBoxContainer/RegisterPanel"]
+layout_mode = 2
+placeholder_text = "Enter display name"
+
+[node name="ConfirmPasswordLabel" type="Label" parent="CenterContainer/LoginPanel/VBoxContainer/RegisterPanel"]
+layout_mode = 2
+text = "Confirm Password:"
+
+[node name="ConfirmPasswordInput" type="LineEdit" parent="CenterContainer/LoginPanel/VBoxContainer/RegisterPanel"]
+layout_mode = 2
+placeholder_text = "Confirm your password"
+secret = true
+
+[node name="CreateAccountButton" type="Button" parent="CenterContainer/LoginPanel/VBoxContainer/RegisterPanel"]
+layout_mode = 2
+text = "Create Account"
+
+[node name="BackToLoginButton" type="Button" parent="CenterContainer/LoginPanel/VBoxContainer/RegisterPanel"]
+layout_mode = 2
+text = "Back to Login"
+
+[node name="StatusLabel" type="Label" parent="CenterContainer/LoginPanel/VBoxContainer"]
+layout_mode = 2
+text = ""
+horizontal_alignment = 1
+autowrap_mode = 2
+
+[node name="SkipButton" type="Button" parent="CenterContainer/LoginPanel/VBoxContainer"]
+layout_mode = 2
+text = "Skip Login (Play Offline)"
+
+[connection signal="pressed" from="CenterContainer/LoginPanel/VBoxContainer/LoginButton" to="." method="_on_login_pressed"]
+[connection signal="pressed" from="CenterContainer/LoginPanel/VBoxContainer/RegisterButton" to="." method="_on_register_pressed"]
+[connection signal="pressed" from="CenterContainer/LoginPanel/VBoxContainer/RegisterPanel/CreateAccountButton" to="." method="_on_create_account_pressed"]
+[connection signal="pressed" from="CenterContainer/LoginPanel/VBoxContainer/RegisterPanel/BackToLoginButton" to="." method="_on_back_to_login_pressed"]
+[connection signal="pressed" from="CenterContainer/LoginPanel/VBoxContainer/SkipButton" to="." method="_on_skip_pressed"]

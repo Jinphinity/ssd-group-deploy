@@ -1,0 +1,13 @@
+{
+  "permissions": {
+    "allow": [
+      "Read(//c/Users/jinph/Documents/00_Repositories/project-cunninglinguist/tools/**)",
+      "Read(//c/Users/jinph/.claude/ue-aegis/**)",
+      "Bash(gh api:*)",
+      "Read(//c/Users/jinph/.claude/**)",
+      "Bash(gh repo list:*)"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}

@@ -1,0 +1,20 @@
+{
+  "name": "dizzy-disease-testing",
+  "version": "1.0.0",
+  "description": "Performance and E2E testing for Dizzy's Disease",
+  "main": "performance-test.js",
+  "scripts": {
+    "test:performance": "node performance-test.js",
+    "test:ttff": "node performance-test.js",
+    "test:chaos": "node chaos-test.js",
+    "test:idempotency": "node chaos-test.js",
+    "test:security": "node security-tests.js",
+    "test:all": "npm run test:security && npm run test:chaos && npm run test:performance"
+  },
+  "dependencies": {
+    "playwright": "^1.40.0"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.40.0"
+  }
+}

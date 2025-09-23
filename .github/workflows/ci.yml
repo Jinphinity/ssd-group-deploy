@@ -4,6 +4,11 @@ on:
   push:
   pull_request:
 
+env:
+  COMMIT_SHA: ${{ github.sha }}
+  BUILD_TIME: ${{ github.run_number }}
+  ENVIRONMENT: ${{ github.ref == 'refs/heads/main' && 'production' || 'staging' }}
+
 jobs:
   api:
     runs-on: ubuntu-latest
@@ -36,8 +41,167 @@ jobs:
           DATABASE_URL: postgresql://postgres:postgres@localhost:5432/dizzy
           JWT_SECRET: devsecret
           API_BASE: http://localhost:8000
+          COMMIT_SHA: ${{ env.COMMIT_SHA }}
+          BUILD_TIME: ${{ env.BUILD_TIME }}
+          ENVIRONMENT: ${{ env.ENVIRONMENT }}
         run: |
           uvicorn api.app:app --host 0.0.0.0 --port 8000 &
           sleep 2
           pytest -q api/tests
+
+  godot:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up Godot
+        uses: chickensoft-games/setup-godot@v1
+        with:
+          version: "4.4.0"
+
+      - name: Verify project setup
+        working-directory: capstone
+        run: |
+          godot --headless --validate --path . --quit
+
+      - name: Export for HTML5
+        working-directory: capstone
+        run: |
+          mkdir -p ../exports/html5
+          godot --headless --export-release "HTML5" ../exports/html5/index.html --path .
+
+      - name: Check bundle size (Gate 1 requirement: ≤25MB)
+        run: |
+          cd exports/html5
+          BUNDLE_SIZE=$(du -sm . | cut -f1)
+          echo "Bundle size: ${BUNDLE_SIZE}MB"
+          if [ $BUNDLE_SIZE -gt 25 ]; then
+            echo "❌ Bundle size ${BUNDLE_SIZE}MB exceeds 25MB limit"
+            exit 1
+          else
+            echo "✅ Bundle size ${BUNDLE_SIZE}MB is within 25MB limit"
+          fi
+
+      - name: Upload HTML5 build artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: html5-build
+          path: exports/html5/
+
+  performance:
+    runs-on: ubuntu-latest
+    needs: godot
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+
+      - name: Download HTML5 build
+        uses: actions/download-artifact@v4
+        with:
+          name: html5-build
+          path: html5-build/
+
+      - name: Install Playwright dependencies
+        working-directory: scripts
+        run: |
+          npm install
+          npx playwright install chromium
+
+      - name: Serve HTML5 build locally
+        run: |
+          cd html5-build
+          python3 -m http.server 8080 &
+          sleep 2
+
+      - name: Run TTFF performance test (Gate 1 requirement: ≤5s)
+        working-directory: scripts
+        run: |
+          npm run test:ttff http://localhost:8080
+
+  security:
+    runs-on: ubuntu-latest
+    needs: api
+    services:
+      db:
+        image: postgres:15
+        env:
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: dizzy
+          POSTGRES_USER: postgres
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U postgres" --health-interval 10s --health-timeout 5s --health-retries 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+
+      - name: Install OWASP ZAP
+        run: |
+          wget -q https://github.com/zaproxy/zaproxy/releases/download/v2.14.0/ZAP_2_14_0_unix.sh
+          chmod +x ZAP_2_14_0_unix.sh
+          sudo ./ZAP_2_14_0_unix.sh -q
+
+      - name: Set up database for security testing
+        env:
+          PGPASSWORD: postgres
+        run: |
+          psql -h localhost -U postgres -d dizzy -f api/sql/001_init.sql
+
+      - name: Start API for security testing
+        env:
+          DATABASE_URL: postgresql://postgres:postgres@localhost:5432/dizzy
+          JWT_SECRET: testsecret
+          COMMIT_SHA: ${{ env.COMMIT_SHA }}
+          BUILD_TIME: ${{ env.BUILD_TIME }}
+          ENVIRONMENT: ${{ env.ENVIRONMENT }}
+        run: |
+          pip install -r api/requirements.txt
+          uvicorn api.app:app --host 0.0.0.0 --port 8000 &
+          sleep 5
+
+      - name: Install security testing dependencies
+        working-directory: scripts
+        run: |
+          npm install
+          npx playwright install chromium
+
+      - name: Run enhanced security validation (Gate 3 requirement)
+        working-directory: scripts
+        run: |
+          npm run test:security http://localhost:8000
+
+      - name: Run ZAP baseline scan (API only)
+        run: |
+          /zap/zap-baseline.py -t http://localhost:8000 -J zap-report.json || true
+
+      - name: Parse ZAP results for high severity findings
+        run: |
+          if [ -f zap-report.json ]; then
+            HIGH_FINDINGS=$(jq '[.site[].alerts[] | select(.riskdesc | contains("High"))] | length' zap-report.json)
+            echo "High severity findings: $HIGH_FINDINGS"
+            if [ "$HIGH_FINDINGS" -gt 0 ]; then
+              echo "❌ ZAP found $HIGH_FINDINGS high severity security issues"
+              jq '.site[].alerts[] | select(.riskdesc | contains("High")) | {name, riskdesc, desc}' zap-report.json
+              exit 1
+            else
+              echo "✅ No high severity security issues found"
+            fi
+          else
+            echo "⚠️ ZAP report not generated"
+          fi
+
+      - name: Upload security test results
+        uses: actions/upload-artifact@v4
+        with:
+          name: security-test-results
+          path: |
+            zap-report.json
+            scripts/security-results.json
 

@@ -18,7 +18,7 @@ func _ready() -> void:
     event_bus.name = "EventBus"
     add_child(event_bus)
     # Attempt to load saved state
-    var data := Save.load_local()
+    var data = Save.load_local()
     if data.has("stage"):
         call_deferred("load_stage", data["stage"])
     # UI toggles routed here
@@ -37,7 +37,7 @@ func load_stage(packed_path: String) -> void:
         market_ui = current_stage.get_node_or_null("MarketUI")
         inventory_ui = current_stage.get_node_or_null("InventoryUI")
         # Restore inventory if present in save
-        var data := Save.load_local()
+        var data = Save.load_local()
         if data.has("inventory"):
             var player := current_stage.get_node_or_null("Player")
             if player and player.has_node("Inventory"):
