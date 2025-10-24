@@ -1,0 +1,130 @@
+[gd_scene load_steps=13 format=3]
+
+[ext_resource type="PackedScene" path="res://entities/Player/PlayerSniper.tscn" id="1_player"]
+[ext_resource type="PackedScene" path="res://entities/World/HostileZone_2D.tscn" id="2_hostile_zone"]
+[ext_resource type="PackedScene" path="res://common/UI/HUD.tscn" id="3_hud"]
+[ext_resource type="PackedScene" path="res://common/UI/InventoryUI.tscn" id="4_invui"]
+[ext_resource type="PackedScene" path="res://common/UI/MarketUI.tscn" id="5_marketui"]
+[ext_resource type="Script" path="res://common/AI/WaveSpawner.gd" id="6_waves"]
+[ext_resource type="PackedScene" path="res://entities/NPC/Zombie_Basic_2D.tscn" id="7_zombie_basic"]
+[ext_resource type="PackedScene" path="res://entities/NPC/Zombie_Ranger_2D.tscn" id="8_zombie_ranger"]
+[ext_resource type="PackedScene" path="res://entities/NPC/Zombie_Alarm_2D.tscn" id="9_zombie_alarm"]
+[ext_resource type="PackedScene" path="res://entities/NPC/Zombie_Heavy_2D.tscn" id="10_zombie_heavy"]
+[ext_resource type="PackedScene" path="res://common/LevelTransition/LevelTransition.tscn" id="11_transition"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ground"]
+size = Vector2(2400, 100)
+
+[node name="Stage_Hostile_01_2D" type="Node2D"]
+
+[node name="Environment" type="Node2D" parent="."]
+
+[node name="Ground" type="StaticBody2D" parent="Environment"]
+position = Vector2(0, 300)
+
+[node name="GroundCollision" type="CollisionShape2D" parent="Environment/Ground"]
+shape = SubResource("RectangleShape2D_ground")
+
+[node name="GroundSprite" type="ColorRect" parent="Environment/Ground"]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -1200.0
+offset_top = -50.0
+offset_right = 1200.0
+offset_bottom = 50.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.3, 0.25, 0.2, 1)
+
+[node name="Background" type="ColorRect" parent="Environment"]
+z_index = -10
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -2000.0
+offset_top = -1000.0
+offset_right = 2000.0
+offset_bottom = 1000.0
+color = Color(0.4, 0.3, 0.3, 1)
+
+[node name="HostileZone_2D" parent="Environment" instance=ExtResource("2_hostile_zone")]
+
+[node name="PlayerSniper" parent="." instance=ExtResource("1_player")]
+position = Vector2(-500, 200)
+
+[node name="Camera2D" type="Camera2D" parent="PlayerSniper"]
+enabled = true
+limit_left = -1200
+limit_right = 1200
+limit_top = -500
+limit_bottom = 400
+position_smoothing_enabled = true
+position_smoothing_speed = 8.0
+
+[node name="WaveSpawner" type="Node2D" parent="."]
+script = ExtResource("6_waves")
+enemy_scenes = [ExtResource("7_zombie_basic"), ExtResource("8_zombie_ranger"), ExtResource("9_zombie_alarm"), ExtResource("10_zombie_heavy")]
+enemy_weights = PackedFloat32Array(5, 2, 1.5, 1.25)
+enemy_initial_counts = PackedInt32Array(10, 4, 2, 2)
+enemy_wave_counts = PackedInt32Array(4, 2, 1, 1)
+alert_spawn_bonus = 5
+initial_count = 20
+spawn_per_wave = 8
+
+[node name="SpawnPoints" type="Node2D" parent="WaveSpawner"]
+
+[node name="SpawnLeft" type="Marker2D" parent="WaveSpawner/SpawnPoints"]
+position = Vector2(-800, 200)
+
+[node name="SpawnRight" type="Marker2D" parent="WaveSpawner/SpawnPoints"]
+position = Vector2(800, 200)
+
+[node name="SpawnCenter" type="Marker2D" parent="WaveSpawner/SpawnPoints"]
+position = Vector2(0, 150)
+
+[node name="SpawnFarLeft" type="Marker2D" parent="WaveSpawner/SpawnPoints"]
+position = Vector2(-1000, 200)
+
+[node name="SpawnFarRight" type="Marker2D" parent="WaveSpawner/SpawnPoints"]
+position = Vector2(1000, 200)
+
+[node name="ExitPoints" type="Node2D" parent="."]
+
+[node name="ExitToOutpost" type="Area2D" parent="ExitPoints"]
+position = Vector2(-1200, 200)
+
+[node name="ExitLabel" type="Label" parent="ExitPoints/ExitToOutpost"]
+offset_left = -50.0
+offset_top = -20.0
+offset_right = 50.0
+offset_bottom = 20.0
+text = "← RETURN TO OUTPOST"
+horizontal_alignment = 1
+
+[node name="UI" type="CanvasLayer" parent="."]
+
+[node name="HUD" parent="UI" instance=ExtResource("3_hud")]
+
+[node name="InventoryUI" parent="UI" instance=ExtResource("4_invui")]
+
+[node name="MarketUI" parent="UI" instance=ExtResource("5_marketui")]
+
+[node name="LevelInfo" type="Label" parent="UI"]
+offset_left = 10.0
+offset_top = 10.0
+offset_right = 300.0
+offset_bottom = 60.0
+text = "HOSTILE ZONE - INFECTED DISTRICT
+Eliminate zombie threats"
+vertical_alignment = 1
+
+[node name="ExitZones" type="Node2D" parent="."]
+
+[node name="ToOutpost" parent="ExitZones" instance=ExtResource("11_transition")]
+position = Vector2(-500, 200)
+target_scene_path = "res://stages/Stage_Outpost_2D.tscn"
+transition_label = "Return to Outpost"
+requires_confirmation = true

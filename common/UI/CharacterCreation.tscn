@@ -1,0 +1,200 @@
+[gd_scene load_steps=2 format=3 uid="uid://br4yvwvhfx0kt"]
+
+[ext_resource type="Script" path="res://common/UI/CharacterCreation.gd" id="1"]
+
+[node name="CharacterCreation" type="CanvasLayer"]
+layer = 100
+script = ExtResource("1")
+
+[node name="Root" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 2
+
+[node name="Dim" type="ColorRect" parent="Root"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color(0, 0, 0, 0.7)
+
+[node name="Center" type="CenterContainer" parent="Root"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+
+[node name="Panel" type="PanelContainer" parent="Root/Center"]
+layout_mode = 2
+custom_minimum_size = Vector2(600, 500)
+
+[node name="Margin" type="MarginContainer" parent="Root/Center/Panel"]
+layout_mode = 2
+theme_override_constants/margin_left = 30
+theme_override_constants/margin_top = 30
+theme_override_constants/margin_right = 30
+theme_override_constants/margin_bottom = 30
+
+[node name="VBox" type="VBoxContainer" parent="Root/Center/Panel/Margin"]
+layout_mode = 2
+theme_override_constants/separation = 15
+
+[node name="TitleLabel" type="Label" parent="Root/Center/Panel/Margin/VBox"]
+layout_mode = 2
+text = "Create New Survivor"
+horizontal_alignment = 1
+
+[node name="NameSection" type="VBoxContainer" parent="Root/Center/Panel/Margin/VBox"]
+layout_mode = 2
+theme_override_constants/separation = 5
+
+[node name="NameLabel" type="Label" parent="Root/Center/Panel/Margin/VBox/NameSection"]
+layout_mode = 2
+text = "Survivor Name:"
+
+[node name="NameInput" type="LineEdit" parent="Root/Center/Panel/Margin/VBox/NameSection"]
+layout_mode = 2
+placeholder_text = "Enter survivor name (3-20 characters)"
+max_length = 20
+
+[node name="NameError" type="Label" parent="Root/Center/Panel/Margin/VBox/NameSection"]
+layout_mode = 2
+modulate = Color(1, 0.4, 0.4, 1)
+text = "Name error"
+
+[node name="StatsSection" type="VBoxContainer" parent="Root/Center/Panel/Margin/VBox"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="StatsLabel" type="Label" parent="Root/Center/Panel/Margin/VBox/StatsSection"]
+layout_mode = 2
+text = "Distribute Stat Points (Total: 25):"
+
+[node name="PointsRemainingLabel" type="Label" parent="Root/Center/Panel/Margin/VBox/StatsSection"]
+layout_mode = 2
+text = "Points Remaining: 0"
+horizontal_alignment = 1
+
+[node name="StatsGrid" type="GridContainer" parent="Root/Center/Panel/Margin/VBox/StatsSection"]
+layout_mode = 2
+columns = 3
+
+[node name="StrengthLabel" type="Label" parent="Root/Center/Panel/Margin/VBox/StatsSection/StatsGrid"]
+layout_mode = 2
+text = "Strength:"
+size_flags_horizontal = 3
+
+[node name="StrengthSlider" type="HSlider" parent="Root/Center/Panel/Margin/VBox/StatsSection/StatsGrid"]
+layout_mode = 2
+size_flags_horizontal = 3
+min_value = 1.0
+max_value = 10.0
+step = 1.0
+value = 5.0
+
+[node name="StrengthValue" type="Label" parent="Root/Center/Panel/Margin/VBox/StatsSection/StatsGrid"]
+layout_mode = 2
+text = "5"
+horizontal_alignment = 1
+custom_minimum_size = Vector2(30, 0)
+
+[node name="DexterityLabel" type="Label" parent="Root/Center/Panel/Margin/VBox/StatsSection/StatsGrid"]
+layout_mode = 2
+text = "Dexterity:"
+size_flags_horizontal = 3
+
+[node name="DexteritySlider" type="HSlider" parent="Root/Center/Panel/Margin/VBox/StatsSection/StatsGrid"]
+layout_mode = 2
+size_flags_horizontal = 3
+min_value = 1.0
+max_value = 10.0
+step = 1.0
+value = 5.0
+
+[node name="DexterityValue" type="Label" parent="Root/Center/Panel/Margin/VBox/StatsSection/StatsGrid"]
+layout_mode = 2
+text = "5"
+horizontal_alignment = 1
+custom_minimum_size = Vector2(30, 0)
+
+[node name="AgilityLabel" type="Label" parent="Root/Center/Panel/Margin/VBox/StatsSection/StatsGrid"]
+layout_mode = 2
+text = "Agility:"
+size_flags_horizontal = 3
+
+[node name="AgilitySlider" type="HSlider" parent="Root/Center/Panel/Margin/VBox/StatsSection/StatsGrid"]
+layout_mode = 2
+size_flags_horizontal = 3
+min_value = 1.0
+max_value = 10.0
+step = 1.0
+value = 5.0
+
+[node name="AgilityValue" type="Label" parent="Root/Center/Panel/Margin/VBox/StatsSection/StatsGrid"]
+layout_mode = 2
+text = "5"
+horizontal_alignment = 1
+custom_minimum_size = Vector2(30, 0)
+
+[node name="EnduranceLabel" type="Label" parent="Root/Center/Panel/Margin/VBox/StatsSection/StatsGrid"]
+layout_mode = 2
+text = "Endurance:"
+size_flags_horizontal = 3
+
+[node name="EnduranceSlider" type="HSlider" parent="Root/Center/Panel/Margin/VBox/StatsSection/StatsGrid"]
+layout_mode = 2
+size_flags_horizontal = 3
+min_value = 1.0
+max_value = 10.0
+step = 1.0
+value = 5.0
+
+[node name="EnduranceValue" type="Label" parent="Root/Center/Panel/Margin/VBox/StatsSection/StatsGrid"]
+layout_mode = 2
+text = "5"
+horizontal_alignment = 1
+custom_minimum_size = Vector2(30, 0)
+
+[node name="AccuracyLabel" type="Label" parent="Root/Center/Panel/Margin/VBox/StatsSection/StatsGrid"]
+layout_mode = 2
+text = "Accuracy:"
+size_flags_horizontal = 3
+
+[node name="AccuracySlider" type="HSlider" parent="Root/Center/Panel/Margin/VBox/StatsSection/StatsGrid"]
+layout_mode = 2
+size_flags_horizontal = 3
+min_value = 1.0
+max_value = 10.0
+step = 1.0
+value = 5.0
+
+[node name="AccuracyValue" type="Label" parent="Root/Center/Panel/Margin/VBox/StatsSection/StatsGrid"]
+layout_mode = 2
+text = "5"
+horizontal_alignment = 1
+custom_minimum_size = Vector2(30, 0)
+
+[node name="StatusLabel" type="Label" parent="Root/Center/Panel/Margin/VBox"]
+layout_mode = 2
+text = "Configure your survivor and allocate stat points."
+horizontal_alignment = 1
+
+[node name="ButtonRow" type="HBoxContainer" parent="Root/Center/Panel/Margin/VBox"]
+layout_mode = 2
+alignment = 1
+
+[node name="CreateButton" type="Button" parent="Root/Center/Panel/Margin/VBox/ButtonRow"]
+layout_mode = 2
+text = "Create Survivor"
+size_flags_horizontal = 1
+
+[node name="CancelButton" type="Button" parent="Root/Center/Panel/Margin/VBox/ButtonRow"]
+layout_mode = 2
+text = "Cancel"
+size_flags_horizontal = 1
+
+[connection signal="text_changed" from="Root/Center/Panel/Margin/VBox/NameSection/NameInput" to="." method="_on_name_input_text_changed"]
+[connection signal="pressed" from="Root/Center/Panel/Margin/VBox/ButtonRow/CreateButton" to="." method="_on_create_button_pressed"]
+[connection signal="pressed" from="Root/Center/Panel/Margin/VBox/ButtonRow/CancelButton" to="." method="_on_cancel_button_pressed"]
