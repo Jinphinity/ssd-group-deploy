@@ -1,0 +1,260 @@
+{
+  "recipes": [
+    {
+      "id": "craft_bandage",
+      "name": "Craft Bandage",
+      "duration": 3.0,
+      "success_chance": 0.95,
+      "inputs": [
+        {
+          "item_id": "fabric",
+          "quantity": 1
+        }
+      ],
+      "outputs": [
+        {
+          "item_id": "bandage",
+          "quantity": 2
+        }
+      ]
+    },
+    {
+      "id": "repair_weapon_lv1",
+      "name": "Repair Makeshift Pistol",
+      "duration": 5.0,
+      "success_chance": 0.8,
+      "inputs": [
+        {
+          "item_id": "scrap_metal",
+          "quantity": 2
+        }
+      ],
+      "outputs": [
+        {
+          "item_id": "weapon_lv1",
+          "quantity": 1
+        }
+      ]
+    },
+    {
+      "id": "upgrade_weapon",
+      "name": "Upgrade Weapon",
+      "duration": 10.0,
+      "success_chance": 0.7,
+      "inputs": [
+        {
+          "item_id": "weapon_lv1",
+          "quantity": 1
+        },
+        {
+          "item_id": "scrap_metal",
+          "quantity": 3
+        }
+      ],
+      "outputs": [
+        {
+          "item_id": "weapon_lv2",
+          "quantity": 1
+        }
+      ]
+    },
+    {
+      "id": "craft_medical_kit",
+      "name": "Craft Medical Kit",
+      "duration": 8.0,
+      "success_chance": 0.85,
+      "inputs": [
+        {
+          "item_id": "bandage",
+          "quantity": 3
+        },
+        {
+          "item_id": "fabric",
+          "quantity": 2
+        }
+      ],
+      "outputs": [
+        {
+          "item_id": "medical_kit",
+          "quantity": 1
+        }
+      ]
+    },
+    {
+      "id": "craft_advanced_medical_kit",
+      "name": "Advanced Medical Kit",
+      "duration": 12.0,
+      "success_chance": 0.8,
+      "inputs": [
+        {
+          "item_id": "medical_kit",
+          "quantity": 2
+        },
+        {
+          "item_id": "fabric",
+          "quantity": 1
+        }
+      ],
+      "outputs": [
+        {
+          "item_id": "advanced_medical_kit",
+          "quantity": 1
+        }
+      ]
+    },
+    {
+      "id": "craft_weapon_parts",
+      "name": "Weapon Parts",
+      "duration": 8.0,
+      "success_chance": 0.9,
+      "inputs": [
+        {
+          "item_id": "scrap_metal",
+          "quantity": 3
+        }
+      ],
+      "outputs": [
+        {
+          "item_id": "weapon_parts",
+          "quantity": 2
+        }
+      ]
+    },
+    {
+      "id": "craft_basic_ammo",
+      "name": "Basic Ammunition",
+      "duration": 6.0,
+      "success_chance": 0.95,
+      "inputs": [
+        {
+          "item_id": "scrap_metal",
+          "quantity": 1
+        },
+        {
+          "item_id": "gunpowder",
+          "quantity": 1
+        }
+      ],
+      "outputs": [
+        {
+          "item_id": "basic_ammo",
+          "quantity": 10
+        }
+      ]
+    },
+    {
+      "id": "cook_meal",
+      "name": "Cooked Meal",
+      "duration": 4.0,
+      "success_chance": 0.9,
+      "inputs": [
+        {
+          "item_id": "raw_food",
+          "quantity": 2
+        }
+      ],
+      "outputs": [
+        {
+          "item_id": "cooked_meal",
+          "quantity": 1
+        }
+      ]
+    },
+    {
+      "id": "upgrade_weapon_lv3",
+      "name": "Upgrade to Tuned Carbine",
+      "duration": 15.0,
+      "success_chance": 0.6,
+      "inputs": [
+        {
+          "item_id": "weapon_lv2",
+          "quantity": 1
+        },
+        {
+          "item_id": "weapon_parts",
+          "quantity": 2
+        },
+        {
+          "item_id": "scrap_metal",
+          "quantity": 2
+        }
+      ],
+      "outputs": [
+        {
+          "item_id": "weapon_lv3",
+          "quantity": 1
+        }
+      ]
+    },
+    {
+      "id": "salvage_weapon",
+      "name": "Salvage Weapon",
+      "duration": 6.0,
+      "success_chance": 0.85,
+      "inputs": [
+        {
+          "item_id": "weapon_lv1",
+          "quantity": 1
+        }
+      ],
+      "outputs": [
+        {
+          "item_id": "scrap_metal",
+          "quantity": 4
+        },
+        {
+          "item_id": "weapon_parts",
+          "quantity": 1
+        }
+      ]
+    },
+    {
+      "id": "emergency_bandage",
+      "name": "Emergency Bandage",
+      "duration": 2.0,
+      "success_chance": 0.98,
+      "inputs": [
+        {
+          "item_id": "fabric",
+          "quantity": 1
+        }
+      ],
+      "outputs": [
+        {
+          "item_id": "bandage",
+          "quantity": 1
+        }
+      ]
+    },
+    {
+      "id": "field_repair_kit",
+      "name": "Field Repair Kit",
+      "duration": 10.0,
+      "success_chance": 0.75,
+      "inputs": [
+        {
+          "item_id": "weapon_parts",
+          "quantity": 1
+        },
+        {
+          "item_id": "scrap_metal",
+          "quantity": 1
+        },
+        {
+          "item_id": "fabric",
+          "quantity": 1
+        }
+      ],
+      "outputs": [
+        {
+          "item_id": "medical_kit",
+          "quantity": 1
+        },
+        {
+          "item_id": "bandage",
+          "quantity": 3
+        }
+      ]
+    }
+  ]
+}

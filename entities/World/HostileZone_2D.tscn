@@ -1,0 +1,130 @@
+[gd_scene load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://common/World/Zone2D.gd" id="1_zone2d"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_hostile_zone"]
+size = Vector2(1200, 600)
+
+[node name="HostileZone_2D" type="Node2D"]
+
+[node name="Environment" type="Node2D" parent="."]
+
+[node name="DestroyedBuildings" type="Node2D" parent="Environment"]
+
+[node name="RuinedHouse1" type="ColorRect" parent="Environment/DestroyedBuildings"]
+offset_left = -300.0
+offset_top = -100.0
+offset_right = -200.0
+offset_bottom = 0.0
+color = Color(0.3, 0.25, 0.2, 1)
+
+[node name="RuinedHouse2" type="ColorRect" parent="Environment/DestroyedBuildings"]
+offset_left = 200.0
+offset_top = -80.0
+offset_right = 350.0
+offset_bottom = 20.0
+color = Color(0.25, 0.2, 0.15, 1)
+
+[node name="Debris" type="Node2D" parent="Environment"]
+
+[node name="Rubble1" type="ColorRect" parent="Environment/Debris"]
+offset_left = -100.0
+offset_top = 50.0
+offset_right = -50.0
+offset_bottom = 80.0
+color = Color(0.4, 0.35, 0.3, 1)
+
+[node name="Rubble2" type="ColorRect" parent="Environment/Debris"]
+offset_left = 100.0
+offset_top = 60.0
+offset_right = 150.0
+offset_bottom = 90.0
+color = Color(0.35, 0.3, 0.25, 1)
+
+[node name="Rubble3" type="ColorRect" parent="Environment/Debris"]
+offset_left = 0.0
+offset_top = 40.0
+offset_right = 40.0
+offset_bottom = 70.0
+color = Color(0.3, 0.25, 0.2, 1)
+
+[node name="Hazards" type="Node2D" parent="Environment"]
+
+[node name="AcidPool1" type="ColorRect" parent="Environment/Hazards"]
+offset_left = -200.0
+offset_top = 100.0
+offset_right = -150.0
+offset_bottom = 130.0
+color = Color(0.2, 0.8, 0.3, 0.7)
+
+[node name="AcidPool2" type="ColorRect" parent="Environment/Hazards"]
+offset_left = 250.0
+offset_top = 120.0
+offset_right = 300.0
+offset_bottom = 150.0
+color = Color(0.2, 0.8, 0.3, 0.7)
+
+[node name="HostileZone" type="Area2D" parent="."]
+script = ExtResource("1_zone2d")
+zone_type = 1
+zone_name = "Infected District"
+spawn_multiplier = 2.5
+xp_multiplier = 1.5
+loot_multiplier = 1.3
+
+[node name="HostileZoneCollision" type="CollisionShape2D" parent="HostileZone"]
+shape = SubResource("RectangleShape2D_hostile_zone")
+
+[node name="SpawnPoints" type="Node2D" parent="."]
+
+[node name="ZombieSpawn1" type="Marker2D" parent="SpawnPoints"]
+position = Vector2(-400, -50)
+
+[node name="ZombieSpawn2" type="Marker2D" parent="SpawnPoints"]
+position = Vector2(400, -30)
+
+[node name="ZombieSpawn3" type="Marker2D" parent="SpawnPoints"]
+position = Vector2(-200, 100)
+
+[node name="ZombieSpawn4" type="Marker2D" parent="SpawnPoints"]
+position = Vector2(200, 120)
+
+[node name="ZombieSpawn5" type="Marker2D" parent="SpawnPoints"]
+position = Vector2(0, -150)
+
+[node name="ExitPoints" type="Node2D" parent="."]
+
+[node name="WestExit" type="Area2D" parent="ExitPoints"]
+position = Vector2(-600, 0)
+
+[node name="WestExitLabel" type="Label" parent="ExitPoints/WestExit"]
+offset_left = -50.0
+offset_top = -20.0
+offset_right = 50.0
+offset_bottom = 20.0
+text = "← OUTPOST"
+horizontal_alignment = 1
+
+[node name="WarningSign" type="ColorRect" parent="."]
+offset_left = -100.0
+offset_top = -250.0
+offset_right = 100.0
+offset_bottom = -200.0
+color = Color(0.8, 0.2, 0.2, 1)
+
+[node name="WarningText" type="Label" parent="WarningSign"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -90.0
+offset_top = -20.0
+offset_right = 90.0
+offset_bottom = 20.0
+text = "⚠️ DANGER ⚠️
+INFECTED ZONE
+High zombie activity"
+horizontal_alignment = 1
+vertical_alignment = 1

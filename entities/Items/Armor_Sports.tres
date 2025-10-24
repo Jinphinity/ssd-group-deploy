@@ -1,0 +1,8 @@
+[gd_resource type="Resource" format=3]
+
+[resource]
+slot_size = 1
+weight = 2.0
+durability = 50
+dr = 0.3
+
