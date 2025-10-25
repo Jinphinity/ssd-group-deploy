@@ -104,8 +104,6 @@ QUICK_TEST_GUIDE.md
 RELOAD_PROJECT.md
 SESSION_COMPLETE.md
 STATIC_CALL_AUDIT.md
-docs/
-docs-archive/
 
 # Runtime data
 pids
@@ -113,3 +111,4 @@ pids
 *.seed
 *.pid.lock
 .claude/
+docs-archive/
