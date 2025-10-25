@@ -61,3 +61,4 @@ jobs:
           output_location: ""
           api_location: ""
           app_build_command: ""
+          action: upload
