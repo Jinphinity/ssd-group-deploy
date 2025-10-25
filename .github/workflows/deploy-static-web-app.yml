@@ -1,0 +1,62 @@
+name: Deploy Dizzy's Disease to Azure Static Web Apps
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    env:
+      GODOT_VERSION: 4.4-stable
+      GODOT_EXPORT_TEMPLATES_VERSION: 4.4.stable
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Download Godot editor
+        run: |
+          mkdir -p "${{ runner.temp }}/godot"
+          curl -L "https://github.com/godotengine/godot/releases/download/${GODOT_VERSION}/Godot_v${GODOT_VERSION}_linux.x86_64.zip" -o "${{ runner.temp }}/godot/editor.zip"
+          unzip -q "${{ runner.temp }}/godot/editor.zip" -d "${{ runner.temp }}/godot"
+          chmod +x "${{ runner.temp }}/godot/Godot_v${GODOT_VERSION}_linux.x86_64"
+
+      - name: Install export templates
+        run: |
+          mkdir -p ~/.local/share/godot/export_templates/${GODOT_EXPORT_TEMPLATES_VERSION}
+          curl -L "https://github.com/godotengine/godot/releases/download/${GODOT_VERSION}/Godot_v${GODOT_VERSION}_export_templates.tpz" -o "${{ runner.temp }}/godot/templates.tpz"
+          unzip -q "${{ runner.temp }}/godot/templates.tpz" -d ~/.local/share/godot/export_templates/${GODOT_EXPORT_TEMPLATES_VERSION}
+
+      - name: Export Web build
+        run: |
+          mkdir -p capstone/build/web
+          "${{ runner.temp }}/godot/Godot_v${GODOT_VERSION}_linux.x86_64" --headless --path capstone --export-release "Web (Production)" build/web/index.html
+
+      - name: Ensure Static Web Apps config
+        run: |
+          cat <<'EOF' > capstone/build/web/staticwebapp.config.json
+          {
+            "routes": [
+              {
+                "route": "/*",
+                "headers": {
+                  "Cross-Origin-Opener-Policy": "same-origin",
+                  "Cross-Origin-Embedder-Policy": "require-corp"
+                }
+              }
+            ]
+          }
+          EOF
+
+      - name: Deploy to Azure Static Web Apps
+        uses: Azure/static-web-apps-deploy@v1
+        with:
+          azure_static_web_apps_api_token: ${{ secrets.AZURE_STATIC_WEB_APPS_API_TOKEN }}
+          app_location: capstone/build/web
+          output_location: ""
+          api_location: ""
+          app_build_command: ""
