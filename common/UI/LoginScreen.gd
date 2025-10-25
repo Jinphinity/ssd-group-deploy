@@ -42,7 +42,7 @@ func _ready() -> void:
 			login_skipped.connect(AuthController._on_login_skipped)
 
 	if OS.has_feature("web"):
-		_call_deferred("_apply_fullscreen_web_layout")
+		call_deferred("_apply_fullscreen_web_layout")
 
 	if not Accessibility.setting_changed.is_connected(_on_accessibility_changed):
 		Accessibility.setting_changed.connect(_on_accessibility_changed)
@@ -84,20 +84,14 @@ func _ready() -> void:
 func _apply_fullscreen_web_layout() -> void:
 	var background := get_node_or_null("Background")
 	if background:
-		background.anchor_left = 0.0
-		background.anchor_top = 0.0
-		background.anchor_right = 1.0
-		background.anchor_bottom = 1.0
+		background.set_anchors_preset(Control.PRESET_FULL_RECT)
 		background.offset_left = 0.0
 		background.offset_top = 0.0
 		background.offset_right = 0.0
 		background.offset_bottom = 0.0
 	var center := get_node_or_null("CenterContainer")
 	if center:
-		center.anchor_left = 0.0
-		center.anchor_top = 0.0
-		center.anchor_right = 1.0
-		center.anchor_bottom = 1.0
+		center.set_anchors_preset(Control.PRESET_FULL_RECT)
 		center.offset_left = 0.0
 		center.offset_top = 0.0
 		center.offset_right = 0.0
@@ -168,12 +162,20 @@ func _validate_login_input() -> bool:
 		password_error.text = msg
 		password_error.visible = true
 		messages.append(msg)
-	elif is_register_mode and password.length() < MIN_PASSWORD_LENGTH:
+	elif password.length() < MIN_PASSWORD_LENGTH:
 		password_valid = false
 		var msg = "Password must be at least %d characters." % MIN_PASSWORD_LENGTH
 		password_error.text = msg
 		password_error.visible = true
 		messages.append(msg)
+	elif is_register_mode:
+		# For registration, check full complexity requirements
+		var complexity_issues = _password_complexity_issues(password)
+		if complexity_issues.size() > 0:
+			password_valid = false
+			password_error.text = complexity_issues[0]
+			password_error.visible = true
+			messages.append_array(complexity_issues)
 
 	if messages.size() > 0:
 		_show_status("\n".join(messages), "error")
