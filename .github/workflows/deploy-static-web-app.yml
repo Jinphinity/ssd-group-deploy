@@ -29,7 +29,8 @@ jobs:
         run: |
           mkdir -p ~/.local/share/godot/export_templates/${GODOT_EXPORT_TEMPLATES_VERSION}
           curl -L "https://github.com/godotengine/godot/releases/download/${GODOT_VERSION}/Godot_v${GODOT_VERSION}_export_templates.tpz" -o "${{ runner.temp }}/godot/templates.tpz"
-          unzip -q "${{ runner.temp }}/godot/templates.tpz" -d ~/.local/share/godot/export_templates/${GODOT_EXPORT_TEMPLATES_VERSION}
+          unzip -q "${{ runner.temp }}/godot/templates.tpz" -d "${{ runner.temp }}/godot/extracted"
+          cp "${{ runner.temp }}/godot/extracted/templates/"* ~/.local/share/godot/export_templates/${GODOT_EXPORT_TEMPLATES_VERSION}/
 
       - name: Export Web build
         run: |
