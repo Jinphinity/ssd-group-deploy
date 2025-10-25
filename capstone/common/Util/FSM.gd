@@ -5,7 +5,7 @@ extends Node
 class_name FSM
 
 var state: String = ""
-var handlers := {}
+var handlers: Dictionary = {}
 
 func add_state(name: String, enter: Callable = Callable(), update: Callable = Callable(), exit: Callable = Callable()) -> void:
     handlers[name] = {"enter": enter, "update": update, "exit": exit}

@@ -13,7 +13,8 @@ const STAGING_API_URL: String = "https://dizzy-api-app.azurewebsites.net"
 const PROD_API_URL: String = "https://dizzy-api-app.azurewebsites.net"
 const STATIC_HOST_HINTS := [
 	"azurestaticapps.net",
-	"dizzy-disease"  # custom domains or keyword hints can be added here
+	"dizzy-disease",
+	"dizzy-api-app"
 ]
 
 func _ready() -> void:
@@ -22,10 +23,8 @@ func _ready() -> void:
 func _detect_and_set_environment() -> void:
 	"""Detect runtime environment and configure API URL accordingly"""
 	if OS.has_feature("web"):
-		# In browser - detect from current URL
-		var current_url = _get_browser_url()
+		var current_url := _get_browser_url()
 		if current_url.is_empty():
-			# Unable to detect URL (e.g., eval disabled) - default to prod in web build
 			base_url = PROD_API_URL
 			print("🌐 [API] Browser detected but URL unavailable - defaulting to PROD API: %s" % base_url)
 		elif current_url.contains("localhost") or current_url.contains("127.0.0.1"):
@@ -34,7 +33,7 @@ func _detect_and_set_environment() -> void:
 		else:
 			var matches_static_host := false
 			for hint in STATIC_HOST_HINTS:
-				if current_url.find(String(hint)) != -1:
+				if current_url.find(hint) != -1:
 					matches_static_host = true
 					break
 			if matches_static_host:
@@ -47,18 +46,15 @@ func _detect_and_set_environment() -> void:
 				base_url = PROD_API_URL
 				print("🌐 [API] Browser detected - using PROD API: %s" % base_url)
 	else:
-		# Desktop/editor - use dev by default
 		base_url = DEV_API_URL
 		print("💻 [API] Desktop detected - using DEV API: %s" % base_url)
 
 func _get_browser_url() -> String:
 	"""Get current browser URL for environment detection"""
-	if OS.has_feature("web"):
-		if Engine.has_singleton("JavaScriptBridge"):
-			var href = JavaScriptBridge.eval("window.location.href", true)
-			if typeof(href) == TYPE_STRING:
-				return href
-		return ""
+	if OS.has_feature("web") and Engine.has_singleton("JavaScriptBridge"):
+		var href: Variant = JavaScriptBridge.eval("window.location.href", true)
+		if typeof(href) == TYPE_STRING:
+			return href
 	return ""
 
 func use_online_base(url: String = STAGING_API_URL) -> void:

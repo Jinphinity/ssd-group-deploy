@@ -375,7 +375,7 @@ func get_difficulty_comparison(difficulty1: DifficultyLevel, difficulty2: Diffic
 	var settings1 = difficulty_presets.get(difficulty1, {})
 	var settings2 = difficulty_presets.get(difficulty2, {})
 
-	var comparison = {}
+	var comparison: Dictionary = {}
 	var key_metrics = [
 		"enemy_health_multiplier",
 		"enemy_damage_multiplier",
@@ -386,9 +386,10 @@ func get_difficulty_comparison(difficulty1: DifficultyLevel, difficulty2: Diffic
 	for metric in key_metrics:
 		var value1 = settings1.get(metric, 1.0)
 		var value2 = settings2.get(metric, 1.0)
+		var percent_change: float = ((value2 - value1) / value1) * 100.0 if value1 != 0.0 else 0.0
 		comparison[metric] = {
 			"difference": value2 - value1,
-			"percent_change": value1 != 0.0 ? ((value2 - value1) / value1) * 100.0 : 0.0
+			"percent_change": percent_change
 		}
 
 	return comparison
@@ -427,7 +428,7 @@ func _load_difficulty_settings() -> void:
 # Public API for UI and external systems
 func get_all_difficulty_info() -> Array:
 	"""Get complete information about all difficulty levels"""
-	var info = []
+	var info: Array[Dictionary] = []
 
 	for difficulty_level in DifficultyLevel.values():
 		if difficulty_level == DifficultyLevel.CUSTOM:
@@ -471,7 +472,8 @@ func toggle_runtime_modifier(modifier_name: String, enabled: bool) -> void:
 		if enabled:
 			_apply_difficulty_settings()
 
-	print("[Difficulty] Runtime modifier '%s' %s" % [modifier_name, enabled ? "enabled" : "disabled"])
+	var state_label := "enabled" if enabled else "disabled"
+	print("[Difficulty] Runtime modifier '%s' %s" % [modifier_name, state_label])
 
 # Debug and testing functions
 func debug_print_current_settings() -> void:

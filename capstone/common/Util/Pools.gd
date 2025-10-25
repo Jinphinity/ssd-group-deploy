@@ -4,7 +4,7 @@ extends Node
 
 class_name Pools
 
-var pools := {}
+var pools: Dictionary = {}
 
 func get_or_create(name: String, factory: Callable) -> Node:
     if not pools.has(name):

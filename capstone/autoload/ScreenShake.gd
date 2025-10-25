@@ -59,19 +59,14 @@ func get_shake_rotation() -> float:
     var amount = pow(trauma, trauma_power)
     return noise.get_noise_1d(time * noise_speed + 200) * max_roll * amount
 
-func apply_shake_to_camera(camera: Camera3D) -> void:
-    """Apply shake effects to a 3D camera"""
+func apply_shake_to_camera(camera: Camera2D) -> void:
+    """Apply shake effects to a 2D camera"""
     if not camera:
         return
-
     var offset = get_shake_offset()
     var rotation = get_shake_rotation()
-
-    # Apply translation shake
-    camera.position += Vector3(offset.x * 0.01, offset.y * 0.01, 0)
-
-    # Apply rotation shake
-    camera.rotation_degrees += Vector3(rotation * 57.3, 0, 0)
+    camera.offset = offset
+    camera.rotation = rotation
 
 func apply_shake_to_ui(ui_node: CanvasLayer) -> void:
     """Apply shake effects to UI elements"""

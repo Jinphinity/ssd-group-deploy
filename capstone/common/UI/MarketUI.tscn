@@ -3,6 +3,7 @@
 [ext_resource type="Script" path="res://common/UI/MarketUI.gd" id="1_md0as"]
 
 [node name="MarketUI" type="CanvasLayer"]
+visible = false
 script = ExtResource("1_md0as")
 
 [node name="Root" type="Control" parent="."]
@@ -56,5 +57,14 @@ offset_left = 80.0
 offset_top = 460.0
 text = "Sell"
 
+[node name="CloseBtn" type="Button" parent="Root/Panel"]
+layout_mode = 2
+offset_left = 720.0
+offset_top = 12.0
+offset_right = 768.0
+offset_bottom = 43.0
+text = "✕"
+
 [connection signal="pressed" from="Root/Panel/BuyBtn" to="." method="_on_buy_pressed"]
 [connection signal="pressed" from="Root/Panel/SellBtn" to="." method="_on_sell_pressed"]
+[connection signal="pressed" from="Root/Panel/CloseBtn" to="." method="_on_close_pressed"]

@@ -1,0 +1,99 @@
+[gd_scene load_steps=14 format=3]
+
+[ext_resource type="PackedScene" path="res://entities/Player/PlayerSniper.tscn" id="1_player"]
+[ext_resource type="PackedScene" path="res://entities/World/Outpost_2D.tscn" id="2_outpost_2d"]
+[ext_resource type="PackedScene" path="res://entities/NPC/Trader_2D.tscn" id="3_trader"]
+[ext_resource type="PackedScene" path="res://common/UI/HUD.tscn" id="4_hud"]
+[ext_resource type="PackedScene" path="res://common/UI/InventoryUI.tscn" id="5_invui"]
+[ext_resource type="PackedScene" path="res://common/UI/MarketUI.tscn" id="6_marketui"]
+[ext_resource type="Script" path="res://stages/Stage_Outpost.gd" id="7_stage"]
+[ext_resource type="Script" path="res://common/Economy/MarketController.gd" id="8_market"]
+[ext_resource type="Script" path="res://common/Economy/SettlementController.gd" id="9_settle"]
+[ext_resource type="Script" path="res://common/Economy/CraftingController.gd" id="10_craft_ctrl"]
+[ext_resource type="PackedScene" path="res://common/UI/CraftingUI.tscn" id="11_craft_ui"]
+[ext_resource type="PackedScene" path="res://common/LevelTransition/LevelTransition.tscn" id="12_transition"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ground"]
+size = Vector2(2000, 100)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_exit_zone"]
+size = Vector2(100, 200)
+
+[node name="Stage_Outpost_2D" type="Node2D"]
+script = ExtResource("7_stage")
+
+[node name="Environment" type="Node2D" parent="."]
+
+[node name="Ground" type="StaticBody2D" parent="Environment"]
+position = Vector2(0, 300)
+
+[node name="GroundCollision" type="CollisionShape2D" parent="Environment/Ground"]
+shape = SubResource("RectangleShape2D_ground")
+
+[node name="GroundSprite" type="ColorRect" parent="Environment/Ground"]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -1000.0
+offset_top = -50.0
+offset_right = 1000.0
+offset_bottom = 50.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.4, 0.3, 0.2, 1)
+
+[node name="Background" type="ColorRect" parent="Environment"]
+z_index = -10
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -2000.0
+offset_top = -1000.0
+offset_right = 2000.0
+offset_bottom = 1000.0
+color = Color(0.6, 0.8, 1.0, 1)
+
+[node name="Outpost_2D" parent="Environment" instance=ExtResource("2_outpost_2d")]
+
+[node name="NPCs" type="Node2D" parent="."]
+
+[node name="Trader_2D" parent="NPCs" instance=ExtResource("3_trader")]
+position = Vector2(-300, 200)
+
+[node name="ExitZones" type="Node2D" parent="."]
+
+[node name="ToHostileZone" parent="ExitZones" instance=ExtResource("12_transition")]
+position = Vector2(500, 200)
+target_scene_path = "res://stages/Stage_Hostile_01_2D.tscn"
+transition_label = "Enter Hostile Zone"
+requires_confirmation = true
+
+[node name="PlayerSniper" parent="." instance=ExtResource("1_player")]
+position = Vector2(0, 200)
+
+[node name="Camera2D" type="Camera2D" parent="PlayerSniper"]
+enabled = true
+
+[node name="ZombieSpawner" type="Node2D" parent="."]
+
+[node name="UI" type="CanvasLayer" parent="."]
+
+[node name="HUD" parent="UI" instance=ExtResource("4_hud")]
+
+[node name="InventoryUI" parent="UI" instance=ExtResource("5_invui")]
+
+[node name="MarketUI" parent="UI" instance=ExtResource("6_marketui")]
+
+[node name="CraftingUI" parent="UI" instance=ExtResource("11_craft_ui")]
+
+[node name="MarketController" type="Node" parent="."]
+script = ExtResource("8_market")
+base_prices = {"Pistol": 100, "Ammo": 5, "Medkit": 25}
+
+[node name="SettlementController" type="Node" parent="."]
+script = ExtResource("9_settle")
+
+[node name="CraftingController" type="Node" parent="."]
+script = ExtResource("10_craft_ctrl")

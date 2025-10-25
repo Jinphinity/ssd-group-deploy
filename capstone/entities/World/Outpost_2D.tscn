@@ -1,0 +1,127 @@
+[gd_scene load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://common/World/Zone2D.gd" id="1_zone2d"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_safe_zone"]
+size = Vector2(800, 400)
+
+[node name="Outpost_2D" type="Node2D"]
+
+[node name="Buildings" type="Node2D" parent="."]
+
+[node name="MainHall" type="ColorRect" parent="Buildings"]
+offset_left = -200.0
+offset_top = -150.0
+offset_right = 200.0
+offset_bottom = 50.0
+color = Color(0.6, 0.5, 0.4, 1)
+
+[node name="MainHallLabel" type="Label" parent="Buildings/MainHall"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -75.0
+offset_top = -12.0
+offset_right = 75.0
+offset_bottom = 12.0
+text = "OUTPOST MAIN HALL"
+horizontal_alignment = 1
+
+[node name="MarketStall" type="ColorRect" parent="Buildings"]
+offset_left = -350.0
+offset_top = -100.0
+offset_right = -250.0
+offset_bottom = 0.0
+color = Color(0.8, 0.6, 0.2, 1)
+
+[node name="MarketLabel" type="Label" parent="Buildings/MarketStall"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -30.0
+offset_top = -12.0
+offset_right = 30.0
+offset_bottom = 12.0
+text = "MARKET"
+horizontal_alignment = 1
+
+[node name="Barricades" type="Node2D" parent="Buildings"]
+
+[node name="LeftBarricade" type="ColorRect" parent="Buildings/Barricades"]
+offset_left = -400.0
+offset_top = -50.0
+offset_right = -380.0
+offset_bottom = 50.0
+color = Color(0.4, 0.3, 0.2, 1)
+
+[node name="RightBarricade" type="ColorRect" parent="Buildings/Barricades"]
+offset_left = 380.0
+offset_top = -50.0
+offset_right = 400.0
+offset_bottom = 50.0
+color = Color(0.4, 0.3, 0.2, 1)
+
+[node name="BackWall" type="ColorRect" parent="Buildings/Barricades"]
+offset_left = -400.0
+offset_top = -200.0
+offset_right = 400.0
+offset_bottom = -180.0
+color = Color(0.4, 0.3, 0.2, 1)
+
+[node name="SafeZone" type="Area2D" parent="."]
+script = ExtResource("1_zone2d")
+zone_type = 0
+zone_name = "Outpost Safe Zone"
+spawn_multiplier = 0.1
+
+[node name="SafeZoneCollision" type="CollisionShape2D" parent="SafeZone"]
+shape = SubResource("RectangleShape2D_safe_zone")
+
+[node name="MarketInteractionZone" type="Area2D" parent="."]
+position = Vector2(-300, -50)
+
+[node name="MarketCollisionShape" type="CollisionShape2D" parent="MarketInteractionZone"]
+
+[node name="ExitPoints" type="Node2D" parent="."]
+
+[node name="EastExit" type="Area2D" parent="ExitPoints"]
+position = Vector2(400, 0)
+
+[node name="EastExitLabel" type="Label" parent="ExitPoints/EastExit"]
+offset_left = -50.0
+offset_top = -20.0
+offset_right = 50.0
+offset_bottom = 20.0
+text = "→ HOSTILE ZONE"
+horizontal_alignment = 1
+
+[node name="Props" type="Node2D" parent="."]
+
+[node name="WelcomeSign" type="ColorRect" parent="Props"]
+offset_left = -80.0
+offset_top = 80.0
+offset_right = 80.0
+offset_bottom = 120.0
+color = Color(0.7, 0.7, 0.5, 1)
+
+[node name="WelcomeText" type="Label" parent="Props/WelcomeSign"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -75.0
+offset_top = -15.0
+offset_right = 75.0
+offset_bottom = 15.0
+text = "WELCOME TO OUTPOST
+Safe zone - zombies reduced"
+horizontal_alignment = 1
+vertical_alignment = 1

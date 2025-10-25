@@ -28,7 +28,10 @@ func _sample_performance() -> void:
 
     npc_count = get_tree().get_nodes_in_group("npc").size()
 
-    var current_time := Time.get_unix_time_from_system()
+    if GameTime == null or not GameTime.has_method("get_unix_time_from_system"):
+        return
+
+    var current_time := GameTime.get_unix_time_from_system()
     if current_time - last_report_time >= report_interval:
         _send_performance_report()
         last_report_time = current_time
@@ -37,17 +40,17 @@ func _send_performance_report() -> void:
     if fps_samples.is_empty() or memory_samples.is_empty():
         return
 
-    var avg_fps := _average(fps_samples)
-    var min_fps := fps_samples.min()
-    var max_fps := fps_samples.max()
+    var avg_fps: float = _average(fps_samples)
+    var min_fps: float = float(fps_samples.min())
+    var max_fps: float = float(fps_samples.max())
 
-    var avg_memory := _average(memory_samples)
-    var max_memory := memory_samples.max()
+    var avg_memory: float = _average(memory_samples)
+    var max_memory: float = float(memory_samples.max())
 
     var performance_rating := _assess_performance(avg_fps, npc_count)
 
     var report := {
-        "timestamp": Time.get_unix_time_from_system(),
+        "timestamp": GameTime.get_unix_time_from_system(),
         "duration_seconds": report_interval,
         "fps": {
             "average": avg_fps,
@@ -100,7 +103,7 @@ func _average(samples: Array[float]) -> float:
 
 func _assess_performance(avg_fps: float, npc_count_value: int) -> String:
     var is_html5 := OS.get_name() == "Web"
-    var target_fps := is_html5 ? 30.0 : 60.0
+    var target_fps := 30.0 if is_html5 else 60.0
 
     if avg_fps >= target_fps and npc_count_value >= 5:
         return "excellent"
@@ -110,11 +113,12 @@ func _assess_performance(avg_fps: float, npc_count_value: int) -> String:
 
 func _current_renderer() -> String:
     var device := RenderingServer.get_rendering_device()
-    return device != null ? device.get_device_name() : "Unknown"
+    return device.get_device_name() if device != null else "Unknown"
 
 func enable_monitoring() -> void:
     monitor_enabled = true
-    last_report_time = Time.get_unix_time_from_system()
+    if GameTime and GameTime.has_method("get_unix_time_from_system"):
+        last_report_time = GameTime.get_unix_time_from_system()
 
 func disable_monitoring() -> void:
     monitor_enabled = false

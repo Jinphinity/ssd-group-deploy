@@ -1,0 +1,62 @@
+[gd_scene load_steps=2 format=3 uid="uid://bl7xr8dk2vgeh"]
+
+[ext_resource type="Script" path="res://common/LevelTransition/UI/TransitionPrompt.gd" id="1_9k3lm"]
+
+[node name="TransitionPrompt" type="Control"]
+layout_mode = 3
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -100.0
+offset_top = -40.0
+offset_right = 100.0
+offset_bottom = 40.0
+script = ExtResource("1_9k3lm")
+fade_duration = 0.3
+pulse_enabled = true
+auto_size = true
+
+[node name="BackgroundPanel" type="Panel" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -100.0
+offset_top = -40.0
+offset_right = 100.0
+offset_bottom = 40.0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="BackgroundPanel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 8.0
+offset_top = 8.0
+offset_right = -8.0
+offset_bottom = -8.0
+
+[node name="PromptLabel" type="Label" parent="BackgroundPanel/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+text = "Press E to enter"
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 2
+
+[node name="RequirementLabel" type="Label" parent="BackgroundPanel/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+modulate = Color(1, 0.8, 0.8, 1)
+text = ""
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 2
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]

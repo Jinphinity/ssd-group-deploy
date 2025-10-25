@@ -13,6 +13,13 @@ anchor_bottom = 1.0
 offset_right = 0.0
 offset_bottom = 0.0
 
+[node name="Background" type="ColorRect" parent="Root"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color(0.12, 0.12, 0.16, 1)
+
 [node name="VBoxContainer" type="VBoxContainer" parent="Root"]
 layout_mode = 1
 anchors_preset = 15
@@ -65,9 +72,6 @@ text = "Continue Game"
 layout_mode = 2
 text = "New Game"
 
-[node name="MarketButton" type="Button" parent="Root/VBoxContainer/GameControls"]
-layout_mode = 2
-text = "Market"
 
 [node name="OptionsButton" type="Button" parent="Root/VBoxContainer/GameControls"]
 layout_mode = 2
@@ -85,11 +89,245 @@ layout_mode = 2
 text = ""
 horizontal_alignment = 1
 
+[node name="OptionsOverlay" type="ColorRect" parent="Root"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color(0, 0, 0, 0.6)
+visible = false
+
+[node name="OptionsCenter" type="CenterContainer" parent="Root/OptionsOverlay"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+
+[node name="OptionsPanel" type="PanelContainer" parent="Root/OptionsOverlay/OptionsCenter"]
+custom_minimum_size = Vector2(520, 520)
+
+[node name="Margin" type="MarginContainer" parent="Root/OptionsOverlay/OptionsCenter/OptionsPanel"]
+layout_mode = 2
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_bottom = 20
+
+[node name="VBox" type="VBoxContainer" parent="Root/OptionsOverlay/OptionsCenter/OptionsPanel/Margin"]
+layout_mode = 2
+custom_minimum_size = Vector2(480, 0)
+separation = 12
+
+[node name="OptionsTitle" type="Label" parent="Root/OptionsOverlay/OptionsCenter/OptionsPanel/Margin/VBox"]
+layout_mode = 2
+text = "Options"
+horizontal_alignment = 1
+theme_override_font_sizes/font_size = 28
+
+[node name="OptionsSeparator" type="HSeparator" parent="Root/OptionsOverlay/OptionsCenter/OptionsPanel/Margin/VBox"]
+layout_mode = 2
+
+[node name="AccessibilitySectionLabel" type="Label" parent="Root/OptionsOverlay/OptionsCenter/OptionsPanel/Margin/VBox"]
+layout_mode = 2
+text = "Accessibility"
+theme_override_font_sizes/font_size = 20
+
+[node name="HighContrastCheck" type="CheckBox" parent="Root/OptionsOverlay/OptionsCenter/OptionsPanel/Margin/VBox"]
+layout_mode = 2
+text = "Enable high-contrast mode"
+
+[node name="CaptionsCheck" type="CheckBox" parent="Root/OptionsOverlay/OptionsCenter/OptionsPanel/Margin/VBox"]
+layout_mode = 2
+text = "Show captions"
+
+[node name="FontScaleRow" type="HBoxContainer" parent="Root/OptionsOverlay/OptionsCenter/OptionsPanel/Margin/VBox"]
+layout_mode = 2
+alignment = 1
+
+[node name="FontScaleLabel" type="Label" parent="Root/OptionsOverlay/OptionsCenter/OptionsPanel/Margin/VBox/FontScaleRow"]
+layout_mode = 2
+text = "Font scale"
+
+[node name="FontScaleSlider" type="HSlider" parent="Root/OptionsOverlay/OptionsCenter/OptionsPanel/Margin/VBox/FontScaleRow"]
+layout_mode = 2
+min_value = 0.8
+max_value = 1.5
+step = 0.01
+size_flags_horizontal = 3
+value = 1.0
+
+[node name="FontScaleValue" type="Label" parent="Root/OptionsOverlay/OptionsCenter/OptionsPanel/Margin/VBox/FontScaleRow"]
+layout_mode = 2
+text = "1.00x"
+
+[node name="AccessibilitySeparator" type="HSeparator" parent="Root/OptionsOverlay/OptionsCenter/OptionsPanel/Margin/VBox"]
+layout_mode = 2
+
+[node name="DisplayLabel" type="Label" parent="Root/OptionsOverlay/OptionsCenter/OptionsPanel/Margin/VBox"]
+layout_mode = 2
+text = "Display"
+theme_override_font_sizes/font_size = 20
+
+[node name="ResolutionRow" type="HBoxContainer" parent="Root/OptionsOverlay/OptionsCenter/OptionsPanel/Margin/VBox"]
+layout_mode = 2
+alignment = 1
+
+[node name="ResolutionLabel" type="Label" parent="Root/OptionsOverlay/OptionsCenter/OptionsPanel/Margin/VBox/ResolutionRow"]
+layout_mode = 2
+text = "Resolution"
+
+[node name="ResolutionOption" type="OptionButton" parent="Root/OptionsOverlay/OptionsCenter/OptionsPanel/Margin/VBox/ResolutionRow"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="DisplaySeparator" type="HSeparator" parent="Root/OptionsOverlay/OptionsCenter/OptionsPanel/Margin/VBox"]
+layout_mode = 2
+
+[node name="ControlsLabel" type="Label" parent="Root/OptionsOverlay/OptionsCenter/OptionsPanel/Margin/VBox"]
+layout_mode = 2
+text = "Control bindings"
+theme_override_font_sizes/font_size = 20
+
+[node name="BindingsGrid" type="GridContainer" parent="Root/OptionsOverlay/OptionsCenter/OptionsPanel/Margin/VBox"]
+layout_mode = 2
+columns = 2
+custom_minimum_size = Vector2(0, 200)
+
+[node name="BindingLabel_MoveForward" type="Label" parent="Root/OptionsOverlay/OptionsCenter/OptionsPanel/Margin/VBox/BindingsGrid"]
+layout_mode = 2
+text = "Move Forward"
+
+[node name="Bind_move_forward" type="Button" parent="Root/OptionsOverlay/OptionsCenter/OptionsPanel/Margin/VBox/BindingsGrid"]
+layout_mode = 2
+text = "Press a key"
+
+[node name="BindingLabel_MoveBack" type="Label" parent="Root/OptionsOverlay/OptionsCenter/OptionsPanel/Margin/VBox/BindingsGrid"]
+layout_mode = 2
+text = "Move Back"
+
+[node name="Bind_move_back" type="Button" parent="Root/OptionsOverlay/OptionsCenter/OptionsPanel/Margin/VBox/BindingsGrid"]
+layout_mode = 2
+text = "Press a key"
+
+[node name="BindingLabel_MoveLeft" type="Label" parent="Root/OptionsOverlay/OptionsCenter/OptionsPanel/Margin/VBox/BindingsGrid"]
+layout_mode = 2
+text = "Move Left"
+
+[node name="Bind_move_left" type="Button" parent="Root/OptionsOverlay/OptionsCenter/OptionsPanel/Margin/VBox/BindingsGrid"]
+layout_mode = 2
+text = "Press a key"
+
+[node name="BindingLabel_MoveRight" type="Label" parent="Root/OptionsOverlay/OptionsCenter/OptionsPanel/Margin/VBox/BindingsGrid"]
+layout_mode = 2
+text = "Move Right"
+
+[node name="Bind_move_right" type="Button" parent="Root/OptionsOverlay/OptionsCenter/OptionsPanel/Margin/VBox/BindingsGrid"]
+layout_mode = 2
+text = "Press a key"
+
+[node name="BindingLabel_Fire" type="Label" parent="Root/OptionsOverlay/OptionsCenter/OptionsPanel/Margin/VBox/BindingsGrid"]
+layout_mode = 2
+text = "Fire"
+
+[node name="Bind_fire" type="Button" parent="Root/OptionsOverlay/OptionsCenter/OptionsPanel/Margin/VBox/BindingsGrid"]
+layout_mode = 2
+text = "Press a button"
+
+[node name="BindingLabel_Jump" type="Label" parent="Root/OptionsOverlay/OptionsCenter/OptionsPanel/Margin/VBox/BindingsGrid"]
+layout_mode = 2
+text = "Jump"
+
+[node name="Bind_jump" type="Button" parent="Root/OptionsOverlay/OptionsCenter/OptionsPanel/Margin/VBox/BindingsGrid"]
+layout_mode = 2
+text = "Press a key"
+
+[node name="BindingLabel_Crouch" type="Label" parent="Root/OptionsOverlay/OptionsCenter/OptionsPanel/Margin/VBox/BindingsGrid"]
+layout_mode = 2
+text = "Crouch"
+
+[node name="Bind_crouch" type="Button" parent="Root/OptionsOverlay/OptionsCenter/OptionsPanel/Margin/VBox/BindingsGrid"]
+layout_mode = 2
+text = "Press a key"
+
+[node name="BindingLabel_Aim" type="Label" parent="Root/OptionsOverlay/OptionsCenter/OptionsPanel/Margin/VBox/BindingsGrid"]
+layout_mode = 2
+text = "Aim"
+
+[node name="Bind_aim" type="Button" parent="Root/OptionsOverlay/OptionsCenter/OptionsPanel/Margin/VBox/BindingsGrid"]
+layout_mode = 2
+text = "Press a button"
+
+[node name="BindingLabel_Reload" type="Label" parent="Root/OptionsOverlay/OptionsCenter/OptionsPanel/Margin/VBox/BindingsGrid"]
+layout_mode = 2
+text = "Reload"
+
+[node name="Bind_reload" type="Button" parent="Root/OptionsOverlay/OptionsCenter/OptionsPanel/Margin/VBox/BindingsGrid"]
+layout_mode = 2
+text = "Press a key"
+
+[node name="BindingLabel_Sprint" type="Label" parent="Root/OptionsOverlay/OptionsCenter/OptionsPanel/Margin/VBox/BindingsGrid"]
+layout_mode = 2
+text = "Sprint"
+
+[node name="Bind_sprint" type="Button" parent="Root/OptionsOverlay/OptionsCenter/OptionsPanel/Margin/VBox/BindingsGrid"]
+layout_mode = 2
+text = "Press a key"
+
+[node name="BindingLabel_Interact" type="Label" parent="Root/OptionsOverlay/OptionsCenter/OptionsPanel/Margin/VBox/BindingsGrid"]
+layout_mode = 2
+text = "Interact"
+
+[node name="Bind_interact" type="Button" parent="Root/OptionsOverlay/OptionsCenter/OptionsPanel/Margin/VBox/BindingsGrid"]
+layout_mode = 2
+text = "Press a key"
+
+[node name="BindingLabel_Inventory" type="Label" parent="Root/OptionsOverlay/OptionsCenter/OptionsPanel/Margin/VBox/BindingsGrid"]
+layout_mode = 2
+text = "Inventory"
+
+[node name="Bind_inventory" type="Button" parent="Root/OptionsOverlay/OptionsCenter/OptionsPanel/Margin/VBox/BindingsGrid"]
+layout_mode = 2
+text = "Press a key"
+
+[node name="BindingHint" type="Label" parent="Root/OptionsOverlay/OptionsCenter/OptionsPanel/Margin/VBox"]
+layout_mode = 2
+text = "Select a control to rebind, then press a key or mouse button. Press Esc to cancel."
+autowrap_mode = 2
+
+[node name="ControlsSeparator" type="HSeparator" parent="Root/OptionsOverlay/OptionsCenter/OptionsPanel/Margin/VBox"]
+layout_mode = 2
+
+[node name="OptionsButtons" type="HBoxContainer" parent="Root/OptionsOverlay/OptionsCenter/OptionsPanel/Margin/VBox"]
+layout_mode = 2
+alignment = 1
+
+[node name="ResetBindingsButton" type="Button" parent="Root/OptionsOverlay/OptionsCenter/OptionsPanel/Margin/VBox/OptionsButtons"]
+layout_mode = 2
+text = "Reset to defaults"
+
+[node name="CloseOptionsButton" type="Button" parent="Root/OptionsOverlay/OptionsCenter/OptionsPanel/Margin/VBox/OptionsButtons"]
+layout_mode = 2
+text = "Close"
 [connection signal="pressed" from="Root/VBoxContainer/UserInfo/LoginButton" to="." method="_on_login_pressed"]
 [connection signal="pressed" from="Root/VBoxContainer/UserInfo/LogoutButton" to="." method="_on_logout_pressed"]
 [connection signal="pressed" from="Root/VBoxContainer/GameControls/PlayButton" to="." method="_on_play_pressed"]
 [connection signal="pressed" from="Root/VBoxContainer/GameControls/NewGameButton" to="." method="_on_new_game_pressed"]
-[connection signal="pressed" from="Root/VBoxContainer/GameControls/MarketButton" to="." method="_on_market_pressed"]
 [connection signal="pressed" from="Root/VBoxContainer/GameControls/OptionsButton" to="." method="_on_options_pressed"]
 [connection signal="pressed" from="Root/VBoxContainer/GameControls/QuitButton" to="." method="_on_quit_pressed"]
-
+[connection signal="toggled" from="Root/OptionsOverlay/OptionsCenter/OptionsPanel/Margin/VBox/HighContrastCheck" to="." method="_on_high_contrast_toggled"]
+[connection signal="toggled" from="Root/OptionsOverlay/OptionsCenter/OptionsPanel/Margin/VBox/CaptionsCheck" to="." method="_on_captions_toggled"]
+[connection signal="value_changed" from="Root/OptionsOverlay/OptionsCenter/OptionsPanel/Margin/VBox/FontScaleRow/FontScaleSlider" to="." method="_on_font_scale_value_changed"]
+[connection signal="pressed" from="Root/OptionsOverlay/OptionsCenter/OptionsPanel/Margin/VBox/BindingsGrid/Bind_move_forward" to="." method="_on_binding_button_pressed"]
+[connection signal="pressed" from="Root/OptionsOverlay/OptionsCenter/OptionsPanel/Margin/VBox/BindingsGrid/Bind_move_back" to="." method="_on_binding_button_pressed"]
+[connection signal="pressed" from="Root/OptionsOverlay/OptionsCenter/OptionsPanel/Margin/VBox/BindingsGrid/Bind_move_left" to="." method="_on_binding_button_pressed"]
+[connection signal="pressed" from="Root/OptionsOverlay/OptionsCenter/OptionsPanel/Margin/VBox/BindingsGrid/Bind_move_right" to="." method="_on_binding_button_pressed"]
+[connection signal="pressed" from="Root/OptionsOverlay/OptionsCenter/OptionsPanel/Margin/VBox/BindingsGrid/Bind_fire" to="." method="_on_binding_button_pressed"]
+[connection signal="pressed" from="Root/OptionsOverlay/OptionsCenter/OptionsPanel/Margin/VBox/BindingsGrid/Bind_jump" to="." method="_on_binding_button_pressed"]
+[connection signal="pressed" from="Root/OptionsOverlay/OptionsCenter/OptionsPanel/Margin/VBox/BindingsGrid/Bind_crouch" to="." method="_on_binding_button_pressed"]
+[connection signal="pressed" from="Root/OptionsOverlay/OptionsCenter/OptionsPanel/Margin/VBox/BindingsGrid/Bind_aim" to="." method="_on_binding_button_pressed"]
+[connection signal="pressed" from="Root/OptionsOverlay/OptionsCenter/OptionsPanel/Margin/VBox/BindingsGrid/Bind_reload" to="." method="_on_binding_button_pressed"]
+[connection signal="pressed" from="Root/OptionsOverlay/OptionsCenter/OptionsPanel/Margin/VBox/BindingsGrid/Bind_sprint" to="." method="_on_binding_button_pressed"]
+[connection signal="pressed" from="Root/OptionsOverlay/OptionsCenter/OptionsPanel/Margin/VBox/BindingsGrid/Bind_interact" to="." method="_on_binding_button_pressed"]
+[connection signal="pressed" from="Root/OptionsOverlay/OptionsCenter/OptionsPanel/Margin/VBox/BindingsGrid/Bind_inventory" to="." method="_on_binding_button_pressed"]
+[connection signal="pressed" from="Root/OptionsOverlay/OptionsCenter/OptionsPanel/Margin/VBox/OptionsButtons/ResetBindingsButton" to="." method="_on_reset_bindings_pressed"]
+[connection signal="pressed" from="Root/OptionsOverlay/OptionsCenter/OptionsPanel/Margin/VBox/OptionsButtons/CloseOptionsButton" to="." method="_on_close_options_pressed"]

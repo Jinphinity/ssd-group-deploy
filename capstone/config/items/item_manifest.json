@@ -1,0 +1,180 @@
+{
+  "weapons": {
+    "pistols": [
+      {
+        "id": "weapon_lv1",
+        "name": "Makeshift Pistol",
+        "type": "equipment",
+        "slot": "weapon",
+        "tier": 1,
+        "value": 200,
+        "base_damage_bonus": 5,
+        "magazine_size": 8,
+        "reserve_ammo": 32,
+        "stat_mods": {
+          "accuracy": 1,
+          "dexterity": 1
+        },
+        "speed_multiplier": 1.0,
+        "slot_size": 2,
+        "weight": 2.5
+      },
+      {
+        "id": "weapon_lv2",
+        "name": "Reliable Sidearm",
+        "type": "equipment",
+        "slot": "weapon",
+        "tier": 2,
+        "value": 400,
+        "base_damage_bonus": 9,
+        "magazine_size": 10,
+        "reserve_ammo": 40,
+        "stat_mods": {
+          "accuracy": 2,
+          "dexterity": 1
+        },
+        "speed_multiplier": 1.05,
+        "slot_size": 2,
+        "weight": 2.8
+      },
+      {
+        "id": "weapon_lv3",
+        "name": "Tuned Carbine",
+        "type": "equipment",
+        "slot": "weapon",
+        "tier": 3,
+        "value": 800,
+        "base_damage_bonus": 14,
+        "magazine_size": 12,
+        "reserve_ammo": 48,
+        "stat_mods": {
+          "accuracy": 3,
+          "dexterity": 2
+        },
+        "speed_multiplier": 1.1,
+        "slot_size": 3,
+        "weight": 3.2
+      }
+    ]
+  },
+  "consumables": {
+    "medical": [
+      {
+        "id": "medical_kit",
+        "name": "Medical Kit",
+        "type": "consumable",
+        "tier": 1,
+        "value": 50,
+        "health_effect": 25,
+        "slot_size": 1,
+        "weight": 0.5
+      },
+      {
+        "id": "bandage",
+        "name": "Bandage",
+        "type": "consumable",
+        "tier": 1,
+        "value": 20,
+        "health_effect": 10,
+        "slot_size": 1,
+        "weight": 0.1
+      },
+      {
+        "id": "advanced_medical_kit",
+        "name": "Advanced Medical Kit",
+        "type": "consumable",
+        "tier": 2,
+        "value": 120,
+        "health_effect": 50,
+        "slot_size": 2,
+        "weight": 0.8
+      }
+    ],
+    "food": [
+      {
+        "id": "energy_bar",
+        "name": "Energy Bar",
+        "type": "consumable",
+        "tier": 1,
+        "value": 30,
+        "nourishment_effect": 15,
+        "slot_size": 1,
+        "weight": 0.2
+      },
+      {
+        "id": "cooked_meal",
+        "name": "Cooked Meal",
+        "type": "consumable",
+        "tier": 2,
+        "value": 45,
+        "nourishment_effect": 35,
+        "health_effect": 5,
+        "slot_size": 1,
+        "weight": 0.6
+      }
+    ],
+    "ammunition": [
+      {
+        "id": "basic_ammo",
+        "name": "Basic Ammunition",
+        "type": "consumable",
+        "tier": 1,
+        "value": 5,
+        "ammo_count": 10,
+        "slot_size": 1,
+        "weight": 0.3
+      }
+    ]
+  },
+  "materials": {
+    "basic": [
+      {
+        "id": "scrap_metal",
+        "name": "Scrap Metal",
+        "type": "material",
+        "tier": 1,
+        "value": 10,
+        "slot_size": 1,
+        "weight": 1.0
+      },
+      {
+        "id": "fabric",
+        "name": "Fabric",
+        "type": "material",
+        "tier": 1,
+        "value": 15,
+        "slot_size": 1,
+        "weight": 0.3
+      }
+    ],
+    "advanced": [
+      {
+        "id": "weapon_parts",
+        "name": "Weapon Parts",
+        "type": "material",
+        "tier": 2,
+        "value": 75,
+        "slot_size": 1,
+        "weight": 0.8
+      },
+      {
+        "id": "gunpowder",
+        "name": "Gunpowder",
+        "type": "material",
+        "tier": 2,
+        "value": 30,
+        "slot_size": 1,
+        "weight": 0.2
+      },
+      {
+        "id": "raw_food",
+        "name": "Raw Food",
+        "type": "material",
+        "tier": 1,
+        "value": 8,
+        "slot_size": 1,
+        "weight": 0.4
+      }
+    ]
+  }
+}

@@ -1,0 +1,108 @@
+[gd_scene load_steps=5 format=3]
+
+[ext_resource type="Script" path="res://common/UI/CraftingUI.gd" id="1"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_panel"]
+bg_color = Color(0.133333, 0.145098, 0.172549, 0.941176)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.2, 0.4, 0.6, 0.8)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_left = 6
+corner_radius_bottom_right = 6
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_header"]
+bg_color = Color(0.196078, 0.223529, 0.27451, 0.941176)
+border_width_bottom = 2
+border_color = Color(0.117647, 0.2, 0.352941, 0.588235)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_list"]
+bg_color = Color(0.117647, 0.129412, 0.156863, 0.941176)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.0901961, 0.14902, 0.239216, 0.588235)
+
+[node name="CraftingUI" type="CanvasLayer"]
+visible = false
+script = ExtResource("1")
+
+[node name="Panel" type="Panel" parent="."]
+anchor_right = 0.33
+anchor_bottom = 0.6
+offset_right = 380.0
+offset_bottom = 480.0
+pivot_offset = Vector2(190, 240)
+theme_override_styles/panel = SubResource("StyleBoxFlat_panel")
+
+[node name="CloseButton" type="Button" parent="Panel"]
+anchor_left = 1.0
+anchor_top = 0.0
+anchor_right = 1.0
+anchor_bottom = 0.0
+offset_left = -48.0
+offset_top = 8.0
+offset_right = -8.0
+offset_bottom = 48.0
+text = "X"
+focus_mode = 0
+
+[node name="VBox" type="VBoxContainer" parent="Panel"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 8.0
+offset_top = 8.0
+offset_right = -8.0
+offset_bottom = -8.0
+
+[node name="Header" type="Label" parent="Panel/VBox"]
+text = "Crafting Bench"
+theme_override_styles/normal = SubResource("StyleBoxFlat_header")
+horizontal_alignment = 1
+theme_override_font_sizes/normal_font_size = 22
+
+[node name="HBox" type="HBoxContainer" parent="Panel/VBox"]
+size_flags_vertical = 3
+
+[node name="RecipeList" type="ItemList" parent="Panel/VBox/HBox"]
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_styles/bg = SubResource("StyleBoxFlat_list")
+columns = 1
+auto_height = true
+
+[node name="Details" type="VBoxContainer" parent="Panel/VBox/HBox"]
+size_flags_horizontal = 3
+size_flags_vertical = 3
+custom_minimum_size = Vector2(180, 0)
+
+[node name="Title" type="Label" parent="Panel/VBox/HBox/Details"]
+text = "Select a recipe"
+theme_override_font_sizes/normal_font_size = 20
+
+[node name="Requirements" type="RichTextLabel" parent="Panel/VBox/HBox/Details"]
+size_flags_vertical = 3
+bbcode_enabled = true
+scroll_active = true
+scroll_following = false
+
+[node name="Buttons" type="HBoxContainer" parent="Panel/VBox"]
+alignment = 1
+
+[node name="CraftButton" type="Button" parent="Panel/VBox/Buttons"]
+text = "Craft"
+size_flags_horizontal = 3
+focus_mode = 2
+
+[node name="CancelButton" type="Button" parent="Panel/VBox/Buttons"]
+text = "Cancel"
+size_flags_horizontal = 3
+
+[node name="ProgressBar" type="ProgressBar" parent="Panel/VBox"]
+size_flags_horizontal = 3
+value = 0.0
+visible = false
