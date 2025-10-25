@@ -26,7 +26,7 @@ func _ready() -> void:
 	_apply_accessibility()
 
 	if OS.has_feature("web"):
-		_call_deferred("_apply_fullscreen_web_layout")
+		call_deferred("_apply_fullscreen_web_layout")
 
 	delete_button = action_row.get_node_or_null("DeleteButton") as Button
 	_apply_roster_list_theme()

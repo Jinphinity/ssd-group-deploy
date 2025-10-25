@@ -42,7 +42,7 @@ func _ready() -> void:
     _setup_stat_controls()
     _apply_accessibility()
     if OS.has_feature("web"):
-        _call_deferred("_apply_fullscreen_web_layout")
+        call_deferred("_apply_fullscreen_web_layout")
     
     if not Accessibility.setting_changed.is_connected(_on_accessibility_changed):
         Accessibility.setting_changed.connect(_on_accessibility_changed)

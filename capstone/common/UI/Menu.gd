@@ -77,7 +77,7 @@ var _pending_auth_update: bool = false
 func _ready() -> void:
 	print("🎮 [MENU] Menu._ready() called - initializing menu")
 	if OS.has_feature("web"):
-		_call_deferred("_apply_fullscreen_web_layout")
+		call_deferred("_apply_fullscreen_web_layout")
 
 	# Initialize authentication state management
 	_initialize_auth_management()
