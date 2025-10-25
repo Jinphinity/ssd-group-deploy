@@ -1,0 +1,14 @@
+SSD Deployment Quick Facts (generated via automation)
+====================================================
+Staging URL: https://thankful-wave-09a5b000f.3.azurestaticapps.net/
+API Endpoint: https://dizzy-api-app.azurewebsites.net/
+
+Latest successful GitHub Actions runs:
+- https://github.com/Jinphinity/capstone/actions/runs/18809305400
+- https://github.com/Steve-at-Mohawk-College/capstone-project-Jinphinity/actions/runs/18809048337
+
+Manual verification commands:
+1. curl https://dizzy-api-app.azurewebsites.net/health
+2. curl -X POST https://dizzy-api-app.azurewebsites.net/auth/register -d '{"email":"tester@example.com","password":"Password123!","display_name":"SSD Tester"}' -H 'Content-Type: application/json'
+
+All supporting evidence is located in docs/ssd/deliverables/.
