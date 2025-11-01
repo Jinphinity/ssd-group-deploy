@@ -108,7 +108,7 @@ func _apply_fullscreen_web_layout() -> void:
 		root.offset_top = 0.0
 		root.offset_right = 0.0
 		root.offset_bottom = 0.0
-		root.layout_mode = Control.LAYOUT_FULL_RECT
+		root.layout_mode = 1  # Anchors mode
 	var overlay := get_node_or_null("Root/OptionsOverlay")
 	if overlay:
 		overlay.anchor_left = 0.0
@@ -119,7 +119,7 @@ func _apply_fullscreen_web_layout() -> void:
 		overlay.offset_top = 0.0
 		overlay.offset_right = 0.0
 		overlay.offset_bottom = 0.0
-		overlay.layout_mode = Control.LAYOUT_FULL_RECT
+		overlay.layout_mode = 1  # Anchors mode
 
 func _initialize_auth_management() -> void:
 	"""Initialize authentication state management with debouncing"""

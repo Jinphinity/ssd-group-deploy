@@ -65,7 +65,7 @@ func _apply_fullscreen_web_layout() -> void:
         root.offset_top = 0.0
         root.offset_right = 0.0
         root.offset_bottom = 0.0
-        root.layout_mode = Control.LAYOUT_FULL_RECT
+        root.layout_mode = 1  # Anchors mode
     var dim := get_node_or_null("Root/Dim")
     if dim:
         dim.anchor_left = 0.0
