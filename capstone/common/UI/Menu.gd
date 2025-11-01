@@ -211,42 +211,42 @@ func _on_logout_pressed() -> void:
 
 func _on_play_pressed() -> void:
 	"""Continue existing game"""
-	print("🎮 [MENU] Continue Game button pressed - starting validation")
+	_debug_log("Continue pressed, entering auth check…")
 
 	if not _ensure_character_service():
-		print("❌ [MENU] Character service not available")
+		_debug_log("❌ Character service not available")
 		return
 
-	print("🔍 [MENU] Calling AuthController.require_authentication()")
+	_debug_log("Calling AuthController.require_authentication()…")
 	var auth_result = await AuthController.require_authentication()
-	print("🔍 [MENU] Auth result: %s" % auth_result)
+	_debug_log("Continue auth result: %s" % auth_result)
 
 	if not auth_result:
-		print("❌ [MENU] Authentication failed - showing login message")
+		_debug_log("❌ Authentication failed")
 		_show_status("Please login to select a survivor", "warning")
 		return
 
-	print("✅ [MENU] Authentication passed - proceeding with character selection")
+	_debug_log("✅ Auth passed - showing character select")
 	_show_character_select(false)
 
 func _on_new_game_pressed() -> void:
 	"""Start new game with character creation"""
-	print("🎮 [MENU] New Game button pressed - starting validation")
+	_debug_log("New Game pressed, entering auth check…")
 
 	if not _ensure_character_service():
-		print("❌ [MENU] Character service not available")
+		_debug_log("❌ Character service not available")
 		return
 
-	print("🔍 [MENU] Calling AuthController.require_authentication()")
+	_debug_log("Calling AuthController.require_authentication()…")
 	var auth_result = await AuthController.require_authentication()
-	print("🔍 [MENU] Auth result: %s" % auth_result)
+	_debug_log("New Game auth result: %s" % auth_result)
 
 	if not auth_result:
-		print("❌ [MENU] Authentication failed - showing login message")
+		_debug_log("❌ Authentication failed")
 		_show_status("Please login to create a survivor", "warning")
 		return
 
-	print("✅ [MENU] Authentication passed - proceeding with character creation")
+	_debug_log("✅ Auth passed - showing character creation")
 	Save.clear_save_data()
 	CharacterService.clear_current_character()
 	_show_character_creation()
@@ -261,7 +261,19 @@ func _on_options_pressed() -> void:
 
 func _on_quit_pressed() -> void:
 	"""Quit the game"""
+	_debug_log("Quit pressed")
 	get_tree().quit()
+
+func _debug_log(line: String) -> void:
+	"""Debug logging that works in WebGL builds"""
+	# Always update the on-screen label so we can see this in Web exports
+	status_label.text = line
+	# Keep the regular print for local runs
+	print(line)
+	# Mirror to the browser console explicitly
+	if OS.has_feature("web") and Engine.has_singleton("JavaScriptBridge"):
+		var escaped := JSON.stringify(line)
+		JavaScriptBridge.eval("console.log(" + escaped + ");")
 
 func _ensure_character_service() -> bool:
 	if not has_node("/root/CharacterService"):
