@@ -75,6 +75,48 @@ Follow GODOT-AEGIS principles:
 - Mobile-first optimization
 - Comprehensive testing and validation
 
+## 📤 Git Workflow (CRITICAL - DUAL REMOTE PUSH)
+
+**IMPORTANT**: This repository pushes to TWO remotes simultaneously to prevent deployment failures:
+- **professor** (PRIMARY): Steve-at-Mohawk-College/capstone-project-Jinphinity (Azure deployment)
+- **origin** (BACKUP): Jinphinity/capstone (personal backup)
+
+### Configuration
+Configured with multiple push URLs on origin remote. When you run `git push`, it automatically pushes to BOTH remotes:
+
+```bash
+# Verify configuration
+git remote -v
+# Should show 2 push URLs for origin (professor first, origin second)
+
+# Check push URLs specifically
+git config --get-all remote.origin.pushurl
+```
+
+### Usage Rules (MANDATORY)
+✅ **ALWAYS use**: `git push` or `git push origin main`
+- Automatically updates BOTH remotes (professor primary, origin backup)
+- Single command, both remotes guaranteed to sync
+
+❌ **NEVER use**: `git push professor` only
+- This skips origin remote and breaks sync
+
+⚠️ **Both pushes must succeed**
+- If either remote fails, the entire push fails and you'll see the error immediately
+- This prevents deployment mismatches
+
+### Setup Instructions (if not already configured)
+```bash
+git remote set-url --add --push origin git@github.com:Steve-at-Mohawk-College/capstone-project-Jinphinity.git
+git remote set-url --add --push origin git@github.com:Jinphinity/capstone.git
+```
+
+### Why This Matters
+Previous error: Pushed to origin only, Azure deploys from professor → deploy got old code.
+Solution: Force both remotes to update with every push.
+
+---
+
 ## Current Deployment Status (Latest)
 
 ### ✅ Completed Tasks
