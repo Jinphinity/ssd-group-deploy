@@ -242,7 +242,17 @@ func is_offline_mode() -> bool:
 
 func _cleanup_login_screen() -> void:
     if _login_screen and _login_screen.is_inside_tree():
-        # Immediately remove from scene tree to hide it, then queue for cleanup
+        # CRITICAL FIX: Disable input blocking BEFORE queuing deletion
+        # LoginScreen is a CanvasLayer that blocks input to nodes below it.
+        # queue_free() doesn't execute immediately in WebGL, so the LoginScreen
+        # can persist as a "zombie node" for 1-2 frames and block Menu button clicks.
+        # By disabling visibility and input processing, we ensure buttons work even
+        # if the LoginScreen CanvasLayer hasn't been fully deleted yet.
+        _login_screen.visible = false
+        _login_screen.set_process_input(false)
+        _login_screen.set_process_unhandled_input(false)
+
+        # Now safe to remove and queue for deletion
         _login_screen.get_parent().remove_child(_login_screen)
         _login_screen.queue_free()
     _login_screen = null
